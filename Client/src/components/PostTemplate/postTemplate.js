@@ -7,12 +7,19 @@ function postTemplate(props) {
         <div>
             <div className="card-container">
                 <Container>
+                        {/* Found Item */}
                         <Card style={{ width: '100%', backgroundColor: '#d4f1f4', height: 'auto', borderRadius: '5px' }}>
-                            <Card.Body>
-                                <Card.Title style={{ textAlign: 'center', fontSize: 18 }}>{props.title}</Card.Title>
-                                <Card.Text style={{textAlign: "center", fontSize: 15}}>
-                                    {props.content}
-                                </Card.Text>
+                            <Card.Body style={{textAlign: 10}}>
+                                {/* Image */}
+                                <Card.Img variant='top' src={props.image}/>
+                                {/* Item Name */}
+                                <Card.Text style={{ textAlign: 'left', fontSize: 15 }}>Item Found: {props.itemName}</Card.Text>
+                                {/* Item Brand */}
+                                <Card.Text style={{textAlign: 'left', fontSize: 15}}>Brand: {props.itemBrand}</Card.Text>
+                                {/* Item Color */}
+                                <Card.Text style={{textAlign: 'left', fontSize: 15}}>Color: {props.itemColor}</Card.Text>
+                                {/* Location */}
+                                <Card.Text style={{textAlign: 'left', fontSize: 15}}>Location: {props.location}</Card.Text>
                                 <div className="buttonWrapper">
                                     <div className="view-Wrapper">
                                         <Button variant="primary" id="view-button">View Post</Button>
@@ -23,6 +30,10 @@ function postTemplate(props) {
                                     </div>
                                 </div>
                             </Card.Body>
+
+                        {/* Lost Item */}
+
+
                         </Card>
                 </Container>
 

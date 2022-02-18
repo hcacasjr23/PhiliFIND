@@ -1,11 +1,15 @@
 import React from 'react';
 
+//Additional Dependencies for Footer Component
+import { Container } from '@mui/material';
+
 import './Footer.css';
 
 const Footer = () => {
     return (
         <div className='footer'>
-            <div className='container'>
+            {/* Container is used to make margin consistent with other pages */}
+            <Container>
                 <div className='row'>
                     <div className='col'>
                         <h4>Header 1</h4>
@@ -34,7 +38,7 @@ const Footer = () => {
                         &copy;{new Date().getFullYear()} PhiliFIND | All rights reserved | Terms of Service | Privacy
                     </p>
                 </div>
-            </div>            
+            </Container>            
         </div>
     )
 };

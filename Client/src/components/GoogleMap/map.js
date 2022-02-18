@@ -7,8 +7,6 @@ import Geocode from 'react-geocode';
 // import AutoComplete from 'react-google-autocomplete';
 import {TextField} from '@mui/material'
 
-import './map.css';
-
 Geocode.setApiKey("AIzaSyBL5x46MJOCjf0uohywjsG6p2zFNBEkaYI")
 
 class map extends Component {
@@ -107,7 +105,6 @@ class map extends Component {
     }  
 
 
-
     render() {
 
         // add google map
@@ -142,10 +139,7 @@ class map extends Component {
         ));
 
         return (
-
-
-
-            <div className="map-wrapper">
+            <div>
                 {/* google maps API*/}
                 <MapWithAMarker
                     googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL5x46MJOCjf0uohywjsG6p2zFNBEkaYI&v=3.exp&libraries=geometry,drawing,places"
@@ -154,8 +148,6 @@ class map extends Component {
                     mapElement={<div style={{ height: `100%` }} />}
                 />
             </div>
-            
-
         );
         
     }

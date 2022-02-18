@@ -1,0 +1,9 @@
+/* Temporary Scrollbar for Layouting */
+html {
+    overflow-y: scroll;
+}
+
+.home {
+    background-color: var(--color-white-dirty);
+    height: 100vh;
+}
