@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
-import PostTemplate from '../components/PostTemplate/postTemplate';
+import PostTemplate from '../../PostTemplate/foundPostTemplate';
 
 const Data = () => {
     const [item, setItem] = useState([]);
     useEffect(() => {
-        fetch("http://localhost/philiFIND/getData.php")
+        fetch("http://localhost/philiFIND/getFoundData.php")
             .then(result => result.json())
             .then(
                 (res) => {
@@ -16,7 +16,7 @@ const Data = () => {
     return (
         <div className='row'>
             <div className="title">
-                <h2>Fetching Data</h2>
+                <h2>Found Data List</h2>
                 <div className="item-container">
                     {/* Container for item listing */}
                     <Grid item={true} xs={12}>

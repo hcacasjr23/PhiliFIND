@@ -10,6 +10,7 @@ import LostForm from './components/pages/LostForm/LostForm';
 import Posts from './components/pages/Posts';
 import Admin from './components/pages/Admin/Admin';
 import Login from './components/pages/LoginForm/LoginForm';
+import FoundViewPost from './components/pages/ViewPostComplete/FoundViewPost';
 
 import WithNavFoot from './components/WithNavFoot';
 import WithoutNavFoot from './components/WithoutNavFoot';
@@ -38,6 +39,7 @@ function App() {
             <Route path='/found' element={<FoundForm />} />
             <Route path='/lost' element={<LostForm />} />
             <Route path='/post' element={<Posts />} />
+            <Route path='/foundviewpost' element={<FoundViewPost/>}/>
           </Route>
 
           {/* Pages without Navbar and Footer */}

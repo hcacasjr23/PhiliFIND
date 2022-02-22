@@ -3,8 +3,8 @@ import React from 'react';
 import './Posts.css';
 import { Container, Grid } from '@mui/material'
 
-import PostTemplate from '../PostTemplate/postTemplate'
-import Data from '../Data'
+import FoundData from './DataListing/foundData';
+import LostData from './DataListing/lostData';
 
 function Posts() {
 
@@ -12,7 +12,15 @@ function Posts() {
 
     <div className='post-container'>
       <Container>
-        <Data />
+        <Grid container spacing={2}>
+          <Grid item={true} xs={6}> 
+            <FoundData />
+          </Grid>
+          <Grid item={true} xs={6}>
+            <LostData />
+          </Grid>
+
+        </Grid>
       </Container>
     </div>
   )

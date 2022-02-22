@@ -11,7 +11,7 @@ import { StyledTextField, StyledFormControl } from '../StyledComponents.js';
 //Backend
 import axios from 'axios'
 
-//Additional Dependencies for LostForm
+//Additional Dependencies for FoundForm
 import {
     Container, Grid, TextField, Button, Box, InputLabel,
     MenuItem, FormControl, Select, Paper, Alert, AlertTitle
@@ -21,10 +21,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { breakpoints } from '@mui/system';
 import swal from 'sweetalert';
 
-function LostForm() {
-    
-    //Change this path when done checking
-    const API_PATH = 'http://localhost/philiFIND/lost.php';
+function FoundForm() {
 
     //Default value for variables
     const [values, setValues] = useState({
@@ -41,10 +38,8 @@ function LostForm() {
         lt_time: new Date(),
         lt_category: '',
         lt_addinfo: '',
-        lt_image: '',
+        lt_image: ''
     })
-
-    const data = values
 
     //Default values for text field error prop
     const [itemError, setItemError] = useState(false)
@@ -67,7 +62,7 @@ function LostForm() {
         var errorArray = [];
 
         if (values.lt_item === '') {
-            errorArray.push('Item Lost')
+            errorArray.push('Item Found')
         }
         if (values.lt_brand === '') {
             errorArray.push('Brand/Breed')
@@ -96,55 +91,64 @@ function LostForm() {
         //Pop-up error for invalid inputs
         if (errorArray.length) {
             swal({
-                title: 'The ff. fields contain invalid value',
+                title: 'The ff. fields contain invalid value\'s',
                 text: `${errorCompilation}`,
                 icon: 'warning',
                 button: 'Return to Form',
             })
-        }
 
-        //Prevents page from refreshin when submitted
-        e.preventDefault();
+            //Prevents page from refreshin when submitted
+            e.preventDefault();
 
-        //Refreshes Error props value
-        setItemError(false);
-        setBrandError(false);
-        setColorError(false);
-        setNameError(false);
-        setEmailError(false);
-        setPContactError(false);
-        setLocationError(false);
-        setZipError(false);
+            //Refreshes Error props value
+            setItemError(false);
+            setBrandError(false);
+            setColorError(false);
+            setNameError(false);
+            setEmailError(false);
+            setPContactError(false);
+            setLocationError(false);
+            setZipError(false);
 
-        //Sets error prop when invalid input
-        if (values.lt_item === '') {
-            setItemError(true);
+            //Sets error prop when invalid input
+            if (values.lt_item.trim() === '') {
+                setItemError(true);
+            }
+            if (values.lt_brand.trim() === '') {
+                setBrandError(true);
+            }
+            if (values.lt_color.trim() === '') {
+                setColorError(true);
+            }
+            if (values.lt_name.trim() === '') {
+                setNameError(true);
+            }
+            if (!validemailFormat.test(values.lt_email)) {
+                setEmailError(true);
+            }
+            if (!validPhoneNo.test(values.lt_pcontact)) {
+                setPContactError(true);
+            }
+            if (values.lt_place.trim() === '') {
+                setLocationError(true);
+            }
+            if (values.lt_zip.trim() === '') {
+                setZipError(true);
+            }
+        } 
+        else {
+            sendPostRequest();
+            //Reloads page upon submit
+            window.location.reload();
         }
-        if (values.lt_brand === '') {
-            setBrandError(true);
-        }
-        if (values.lt_color === '') {
-            setColorError(true);
-        }
-        if (values.lt_name === '') {
-            setNameError(true);
-        }
-        if (!validemailFormat.test(values.lt_email)) {
-            setEmailError(true);
-        }
-        if (!validPhoneNo.test(values.lt_pcontact)) {
-            setPContactError(true);
-        }
-        if (values.lt_place === '') {
-            setLocationError(true);
-        }
-        if (values.lt_zip === '') {
-            setZipError(true);
-        }
+    }
 
-        //Backend
+    const API_PATH = 'http://localhost/philiFIND/lost.php';
+
+    //Posts Data to Database using Axios
+    const sendPostRequest = () => {
         axios({
-            method: 'post',
+            method: 'POST',
             url: API_PATH,
             headers: {
                 'content-type': 'application/json'
@@ -164,7 +168,7 @@ function LostForm() {
     const uploadImage = async (e) => {
         const file = e.target.files[0];
         const base64 = await convertBase64(file);
-        setValues({ ...values, lt_image: base64})
+        setValues({ ...values, lt_image: base64 })
     };
 
     //Convert file object to base64
@@ -184,9 +188,9 @@ function LostForm() {
     };
 
     return (
-        <div className="lost-form">
 
-            <Form onSubmit={handleSubmit}>
+        <form>
+            <div className="lost-form">
 
                 {/* Item Lost Information Section*/}
                 <div className="wrapper">
@@ -207,7 +211,7 @@ function LostForm() {
                                     name='item-lost'
                                     size='medium'
                                     fullWidth
-                                    value={values.lt_item || ''}
+                                    value={values.lt_item}
                                     onChange={(e) => setValues({ ...values, lt_item: e.target.value })}
                                     required
                                     error={itemError}
@@ -224,8 +228,8 @@ function LostForm() {
                                         views={['year', 'month', 'day']}
                                         label="Date Lost"
                                         value={values.lt_date}
-                                        onChange={(newValue) => {
-                                            setValues({ ...values, lt_date: newValue.toString() });
+                                        onChange={(e) => {
+                                            setValues({ ...values, lt_date: e });
                                         }}
                                         renderInput={(params) => <StyledTextField {...params} helperText={null} fullWidth />}
                                     />
@@ -239,7 +243,7 @@ function LostForm() {
                                     <TimePicker
                                         label="Time Lost"
                                         value={values.lt_time}
-                                        onChange={(newTime) => { setValues({ ...values, lt_time: newTime.toString() }) }}
+                                        onChange={(e) => { setValues({ ...values, lt_time: e }) }}
                                         renderInput={(params) => <StyledTextField {...params} fullWidth />}
                                     />
                                 </LocalizationProvider>
@@ -341,17 +345,17 @@ function LostForm() {
                                             />
                                         </Button>
                                     </div>
-                                    
+
                                     {/* Displays preview when an image file is uploaded */}
                                     {values.lt_image && (
                                         <div className='image-container'>
                                             {/* Needs to convert base64 to javascript file object*/}
-                                            <img alt="not found" width={'100%'} src={values.lt_image} />
+                                            <img alt="not lost" width={'100%'} src={values.lt_image} />
                                             <Button
                                                 variant='contained'
                                                 id='removeButton'
                                                 sx={{ height: 30 }}
-                                                onClick={() => setValues({ ...values, lt_image: ''})}
+                                                onClick={(e) => setValues({ ...values, lt_image: e.target.value })}
                                             >
                                                 Remove
                                             </Button>
@@ -385,7 +389,7 @@ function LostForm() {
 
                             <Grid item={true} xs={12} sm={6} md={3}>
                                 <Grid container direction='column' spacing={2}>
-                                    {/* Name of Place/Location Field */}
+                                    {/* lt_name of lt_place/Location Field */}
                                     <Grid item={true} xs={12} sm='auto'>
                                         <StyledTextField
                                             id="location"
@@ -431,7 +435,7 @@ function LostForm() {
 
                     <Container>
 
-                        <br /><div className='section-header'><div className='section-header-wrapper'>Finder Contact Information</div></div><br />
+                        <br /><div className='section-header'><div className='section-header-wrapper'>Keeper Contact Information</div></div><br />
 
                         <Grid container rowSpacing={2} columnSpacing={2}>
 
@@ -467,7 +471,7 @@ function LostForm() {
                                     error={emailError}
                                 />
                             </Grid>
-                            {/* End of Email Field */}
+                            {/* End of lt_email Field */}
 
                             {/* Primary Contact Field */}
                             <Grid item={true} xs={12} sm={6}>
@@ -505,7 +509,6 @@ function LostForm() {
                         <br />
                         <div className='button-wrapper'>
                             <Button
-                                type="submit"
                                 id="postButton"
                                 onClick={handleSubmit}
                                 sx={{
@@ -523,10 +526,10 @@ function LostForm() {
                     </Container>
                 </div>
                 {/* End of Contact Information Section */}
-            </Form>
+            </div>
+        </form>
 
-        </div>
     );
 }
 
-export default LostForm;
+export default FoundForm;

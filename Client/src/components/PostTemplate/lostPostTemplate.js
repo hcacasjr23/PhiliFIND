@@ -8,12 +8,12 @@ function postTemplate(props) {
             <div className="card-container">
                 <Container>
                         {/* Found Item */}
-                        <Card style={{ width: '100%', backgroundColor: '#d4f1f4', height: 'auto', borderRadius: '5px' }}>
+                        <Card style={{ width: '100%', backgroundColor: '#ffcccb', height: 'auto', borderRadius: '5px' }}>
                             <Card.Body style={{textAlign: 10}}>
                                 {/* Image */}
-                                <Card.Img variant='top' src={props.image}/>
+                                <Card.Img variant='top' src={props.image} id='image-container'/>
                                 {/* Item Name */}
-                                <Card.Text style={{ textAlign: 'left', fontSize: 15 }}>Item Found: {props.itemName}</Card.Text>
+                                <Card.Text style={{ textAlign: 'left', fontSize: 15 }}>Item Lost: {props.itemName}</Card.Text>
                                 {/* Item Brand */}
                                 <Card.Text style={{textAlign: 'left', fontSize: 15}}>Brand: {props.itemBrand}</Card.Text>
                                 {/* Item Color */}
@@ -22,17 +22,12 @@ function postTemplate(props) {
                                 <Card.Text style={{textAlign: 'left', fontSize: 15}}>Location: {props.location}</Card.Text>
                                 <div className="buttonWrapper">
                                     <div className="view-Wrapper">
-                                        <Button variant="primary" id="view-button">View Post</Button>
-                                    </div>
-                                    
-                                    <div className="alert-Wrapper">
-                                        <Button variant="primary" id="alert-button" >Alert Owner</Button>
+                                        <Button variant="primary" id="view-button" href='/viewpost'>View Post</Button>
                                     </div>
                                 </div>
                             </Card.Body>
 
                         {/* Lost Item */}
-
 
                         </Card>
                 </Container>

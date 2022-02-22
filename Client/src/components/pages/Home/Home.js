@@ -18,21 +18,27 @@ const Home = () => {
                         please take extra care of your belongings next time
                     </p>
                 </div>
+            </div>
 
-                <div className='row'>
+            <div className='row'>
                     <a className='left-section' href='/lost'>
-                        Lost an Item?
+                        <h3 className='section-title'> Lost an Item? </h3>
+                        <p className='section-body'>Fill out our Report Lost Item form</p>
                     </a>
 
                     <a className='middle-section' href='/found'>
-                        Found an Item?
+                        <h3 className='section-title'> Found an Item? </h3>
+                        <p className='section-body'>Fill out our Report Found Item form.</p>
                     </a>
 
                     <a className='right-section' href='/post'>
-                        Finding an Item?
+                        <h3 className='section-title'> Finding an Item? </h3>
+                        <p className='section-body'>Check out our item posts page for more information.</p>
                     </a>
                 </div>
-            </div>
+            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+            <a href="https://www.vecteezy.com/free-vector/lost">Lost Vectors by Vecteezy</a>
+            <a href='https://www.freepik.com/vectors/communication'>Communication vector created by freepik - www.freepik.com</a>
         </div>
     )
 };

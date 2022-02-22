@@ -56,6 +56,10 @@ function AdminPage() {
     console.log("Logout")
     setUser({ userName: "" })
   }
+  
+  const Debug = () =>{
+    console.log("")
+  }
 
 
   return (
@@ -67,6 +71,7 @@ function AdminPage() {
           <Admin dataProvider={'http://localhost/philiFIND/getData.php'}>
             <Resource name='data' list={DataList}/>
           </Admin>
+
 
           <h2>Welcome, <span>{user.userName}</span></h2>
           <Button variant="contained" color="error" onClick={Logout}>Logout</Button>
