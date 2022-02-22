@@ -8,31 +8,31 @@ import './Home.css';
 const Home = () => {
     return (
         <div className='home'>
-            <Container>
-                <div className='hero-section'>
-                    <h1>Lost an Item?</h1>
-                    <p>
-                        Look no futher for here in PhiliFIND
-                        reuniting with your beloved items
-                        is just 'Juan' click away.
+            <div className='hero-section'>
+                <div className='header'>
+                    <span>Welcome to </span><span className='highlight'>PhiliFIND</span>
+                    <p className='show'>
+                        reuniting items with their owners within just a few clicks
+                    </p>
+                    <p className='hidden'>
+                        please take extra care of your belongings next time
                     </p>
                 </div>
-                <Button
-                    onClick={() => {window.location.href = '/found'}}
-                >
-                    Report Found Item
-                </Button>
-                <Button
-                    onClick={() => {window.location.href = '/lost'}}
-                >
-                    Report Lost Item
-                </Button>
-                <Button
-                    onClick={() => {window.location.href = '/post'}}
-                >
-                    View Item Posts
-                </Button>
-            </Container>
+
+                <div className='row'>
+                    <a className='left-section' href='/lost'>
+                        Lost an Item?
+                    </a>
+
+                    <a className='middle-section' href='/found'>
+                        Found an Item?
+                    </a>
+
+                    <a className='right-section' href='/post'>
+                        Finding an Item?
+                    </a>
+                </div>
+            </div>
         </div>
     )
 };
