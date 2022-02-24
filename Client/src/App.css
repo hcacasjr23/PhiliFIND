@@ -7,14 +7,6 @@
   font-family: 'Open Sans', sans-serif;
 }
 
-html {
-  /* 
-    Prevents horizontal scrollbar from appearing when viewport
-    is narrow. Can be improved later on.
-  */
-  overflow-x: hidden;
-}
-
 /* Ensures that footer is always at the bottom of the viewport */
 .app-wrapper {
   display: flex;

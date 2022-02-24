@@ -27,8 +27,6 @@ function LoginForm({ Login }) {
         Login(details);
     }
 
-
-
     return (
         <div className='login-form-wrapper'>
 
@@ -36,21 +34,14 @@ function LoginForm({ Login }) {
 
                 <div className='login-details-container'>
 
-                    <Grid container direction='row' rowSpacing={0} className='login-header'>
-                        <Grid item={true} xs={6} className='column'>
-                            <div className='highlight'>PhiliFIND</div>
-                        </Grid>
-                        <Grid item={true} xs={6} className='column'>
-                            <Grid container direction='row'>
-                                <Grid item={true} xs={12}>
-                                    Administrator
-                                </Grid>
-                                <Grid item={true} xs={12}>
-                                    Dashboard
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Grid>
+                    <div className='login-header'>
+                        <div className='highlight column'>
+                            PhiliFIND
+                        </div>
+                        <div className='column'>
+                            Administrator Dashboard
+                        </div>
+                    </div>
 
                     <Grid container spacing={2}>
                         {/* User Name Section */}

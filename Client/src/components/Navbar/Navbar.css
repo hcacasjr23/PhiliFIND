@@ -11,15 +11,26 @@
 }
 
 .navbar-logo {
-    color: var(--color-white-dirty);
     cursor: pointer;
     font-size: 1.8rem;
+    transition: all 0.3s ease-in-out;
 }
 
 .navbar-logo a {
     color: var(--color-white-dirty);
     text-decoration: none;
+    transition: all 0.3s ease-in-out;
 }
+
+.navbar-logo:hover {
+    background-color: var(--color-white-dirty);
+}
+
+.navbar-logo:hover > a {
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
 
 /* Menu Items */
 .nav-menu {
@@ -36,6 +47,7 @@
     color: var(--color-white-dirty);
     text-decoration: none;
     padding: 0 8px;
+    transition: all 0.2s ease-in-out;
 }
 
 /* Menu Item Highlights */

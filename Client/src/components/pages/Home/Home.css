@@ -6,13 +6,12 @@ html {
     height: 100%;
     background-image:  radial-gradient(var(--color-blue-pastel) 0.6000000000000001px, transparent 0.6000000000000001px), radial-gradient(var(--color-blue-pastel) 0.6000000000000001px, var(--color-white-dirty) 0.6000000000000001px);
     background-size: 24px 24px;
-    background-position: 0 0,12px 12px;
+    background-position: 0 0, 12px 12px;
 }
 
 .hero-section .header {
     text-align: center;
     padding-top: 12rem;
-    padding-bottom: 15rem;
     font-weight: normal;
     color: var(--color-primary);
 }
@@ -77,6 +76,7 @@ html {
 .home .row {
     display: flex;
     height: 500px;
+    margin: 15rem 0;
 }
 
 .home .row a {
@@ -84,7 +84,25 @@ html {
     color: var(--color-primary);
 }
 
-.home .left-section, .middle-section, .right-section {
+.home .left-section {
+    background-image: url('/public/images/lost-img.png');
+}
+
+.home .middle-section {
+    background-image: url('/public/images/found-img.png');
+}
+
+.home .right-section {
+    background-image: url('/public/images/finding-img.png');
+}
+
+.home .left-section, 
+.home .middle-section, 
+.home .right-section {
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.6;
     cursor: pointer;
     flex: 1;
     display: flex;
@@ -94,30 +112,13 @@ html {
     transition: all 0.4s ease-in-out;
 }
 
-.home .left-section:hover, .middle-section:hover, .right-section:hover {
+.home .left-section:hover,
+.home .middle-section:hover,
+.home .right-section:hover {
     background-color: rgba(167, 199, 231, 0.3);
     transition: all 0.4s ease-in-out;
     flex: 1.4;
-}
-
-.home .right-section:hover {
     opacity: 1;
-}
-
-.home .left-section {
-    background-image: url('/public/images/lost-img.png');
-    background-size: cover;
-    opacity: 0.6;
-}
-
-.home .middle-section {
-
-}
-
-.home .right-section {
-    background-image: url('/public/images/finding-img.png');
-    background-size: cover;
-    opacity: 0.6;
 }
 
 .home .row .section-title {
@@ -126,27 +127,91 @@ html {
     font-size: 14pt;
 }
 
-.home .left-section:hover > .section-title, .right-section:hover > .section-title {
+.home .left-section:hover > .section-title, 
+.home .middle-section:hover > .section-title, 
+.home .right-section:hover > .section-title {
     opacity: 1;
     font-size: 18pt;
     box-shadow: 3px 3px var(--color-primary);
 }
 
 .home .row .section-body {
-    margin-left: 3rem;
     background-color: white;
     box-shadow: 2px 2px var(--color-blue-pastel);
     opacity: 0;
     transition: all 0.4s ease-in-out;
+    font-size: 14pt;
 }
 
 .home .row .left-section .section-body {
     margin-right: 3rem;
 }
 
-.home .left-section:hover > .section-body, .right-section:hover > .section-body {
+.home .row .right-section .section-body {
+    margin-left: 3rem;
+}
+
+.home .left-section:hover > .section-body,
+.home .middle-section:hover > .section-body, 
+.home .right-section:hover > .section-body {
     margin-left: 0;
     margin-right: 0;
     margin-top: 1rem;
     opacity: 1;
+}
+
+/* End of Cards row */
+
+.home .attributions {   
+    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.home .attributions h6 {
+    font-weight: bold;
+    font-size: 10pt;
+    color: var(--color-primary)
+}
+
+.home .attributions a {
+    text-decoration: none;
+    font-size: 9pt;
+    color: var(--color-primary)
+}
+
+/* Media Query */
+@media only screen and (max-width: 1000px) {
+    .home .row {
+        flex-direction: column;
+        height: 1500px;
+    }
+
+    .home .left-section, 
+    .home .middle-section {
+        background-position: bottom;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    .home .right-section {
+        background-position: right bottom;
+    }
+
+    .home .left-section:hover,
+    .home .middle-section:hover,
+    .home .right-section:hover {
+        flex: 1.2;
+    }
+
+    .home .row .left-section .section-body {
+        margin-right: 0rem;
+    }
+    
+    .home .row .right-section .section-body {
+        margin-left: 0rem;
+    }
 }
