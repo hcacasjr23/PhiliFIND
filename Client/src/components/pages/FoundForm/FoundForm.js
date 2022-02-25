@@ -3,7 +3,8 @@ import { Form } from 'react-bootstrap';
 import './FoundForm.css';
 
 //Components Needed
-import Maps from '../../GoogleMap/map.js';
+// import Maps from '../../GoogleMap/map.js';
+import Maps from '../../GoogleMap/GMap.js';
 
 //MUI Styled Components
 import { StyledTextField, StyledFormControl } from '../StyledComponents.js';

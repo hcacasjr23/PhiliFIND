@@ -2,7 +2,10 @@ import React from 'react';
 import {Card, CardImg, Button, Placeholder, PlaceholderButton} from 'react-bootstrap';
 import './postTemplate.css'
 import {Container} from '@mui/material';
+
 function postTemplate(props) {
+
+
     return (
         <div>
             <div className="card-container">

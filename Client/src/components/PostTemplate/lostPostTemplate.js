@@ -2,7 +2,7 @@ import React from 'react';
 import {Card, CardImg, Button, Placeholder, PlaceholderButton} from 'react-bootstrap';
 import './postTemplate.css'
 import {Container} from '@mui/material'
-function postTemplate(props) {
+function postTemplate(props, e) {
     return (
         <div>
             <div className="card-container">
@@ -22,7 +22,7 @@ function postTemplate(props) {
                                 <Card.Text style={{textAlign: 'left', fontSize: 15}}>Location: {props.location}</Card.Text>
                                 <div className="buttonWrapper">
                                     <div className="view-Wrapper">
-                                        <Button variant="primary" id="view-button" href='/viewpost'>View Post</Button>
+                                        <Button variant="primary" id="view-button" onClick={console.log(props.key)}>View Post</Button>
                                     </div>
                                 </div>
                             </Card.Body>

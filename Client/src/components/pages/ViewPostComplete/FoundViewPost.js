@@ -22,9 +22,10 @@ function ViewPost ()  {
     <div>
       ViewPost
       {dataItem.map(dataItem => (
-        <div className='container' key={dataItem.id}>
+        <div className='container'>
           <div className="itemName-container">
             <TextField
+              key={dataItem.id}
               label={dataItem.fd_item}
               disabled
               variant='outlined'

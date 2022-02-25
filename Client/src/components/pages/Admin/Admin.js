@@ -3,12 +3,13 @@ import React, { useState } from 'react';
 // Import components
 import { Button } from '@mui/material';
 import { Admin, Resource, useDataProvider } from 'react-admin';
-import lb4Provider from 'react-admin-lb4';
+
 import Swal from 'sweetalert2';
 
 // Import Login Form
 import LoginForm from '../LoginForm/LoginForm';
 import DataList from '../../DataList/dataList';
+import { Dashboard } from '@mui/icons-material';
 
 
 
@@ -68,7 +69,7 @@ function AdminPage() {
       {(user.userName != "") ? (
         <div className="welcome-container">
 
-          <Admin dataProvider={'http://localhost/philiFIND/getData.php'}>
+          <Admin dashboard={Dashboard} dataProvider={'http://localhost/philiFIND/getData.php'}>
             <Resource name='data' list={DataList}/>
           </Admin>
 

@@ -23,7 +23,10 @@ const Data = () => {
                         {/* // Call and list data from database 1 by 1*/}
                         {item.map(item => (
                             <PostTemplateLost key={item.id} image={item.lt_image} itemName={item.lt_item} itemBrand={item.lt_brand} itemColor={item.lt_color} location={item.lt_place} />
-                        ))}
+                        ),
+                            console.log(item.id)
+                        
+                        )}
                     </Grid>
                 </div>
             </div>

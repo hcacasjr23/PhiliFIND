@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-// import { useState } from 'react';
 
-// import components for google map
+// Styling Dependencies
+import {TextField} from '@mui/material'
+
+// Google Map Dependencies
 import {withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow} from 'react-google-maps';
 import Geocode from 'react-geocode';
 // import AutoComplete from 'react-google-autocomplete';
-import {TextField} from '@mui/material'
 
 Geocode.setApiKey("AIzaSyBL5x46MJOCjf0uohywjsG6p2zFNBEkaYI")
 
@@ -27,6 +28,7 @@ class map extends Component {
         },
         text: ''
     }
+
     // get current location
 
     componentDidMount() {
@@ -107,19 +109,17 @@ class map extends Component {
 
     render() {
 
-        // add google map
         const MapWithAMarker = withScriptjs(withGoogleMap(props =>
             <GoogleMap
                 defaultZoom={15}
                 defaultCenter={{ lat: this.state.mapPos.lat, lng: this.state.mapPos.lng }}
-
             >
-                {/* Marker Positioning */}
+
+                {/* Map Marker */}
                 <Marker
                     draggable={true}
                     onDrag={this.handleDragMarker}
                     position={{ lat: this.state.markerPos.lat, lng: this.state.markerPos.lng }}
-                
                 >
 
                     {/* mini tooltip for marker */}
