@@ -7,9 +7,6 @@ import { List, Datagrid, TextField } from 'react-admin';
 function DataList(props) {
 
     return (
-
-        
-
         < List {...props }>
             <Datagrid>
                 <TextField source='id' />
@@ -20,7 +17,6 @@ function DataList(props) {
                 <TextField source='fd_email' />
                 <TextField source='fd_pcontact' />
             </Datagrid>
-            
         </List >
 
     )

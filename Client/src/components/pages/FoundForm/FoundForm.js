@@ -4,7 +4,7 @@ import './FoundForm.css';
 
 //Components Needed
 // import Maps from '../../GoogleMap/map.js';
-import Maps from '../../GoogleMap/GMap.js';
+import Maps from '../../GoogleMap/MapContainer.js';
 
 //MUI Styled Components
 import { StyledTextField, StyledFormControl } from '../StyledComponents.js';

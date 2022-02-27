@@ -3,8 +3,11 @@ import {Card, CardImg, Button, Placeholder, PlaceholderButton} from 'react-boots
 import './postTemplate.css'
 import {Container} from '@mui/material';
 
-function postTemplate(props) {
+function postTemplate(props, itemId, Data) {
 
+    const getSpecificId = (event) => {
+        console.log(event.target);
+    }
 
     return (
         <div>
@@ -13,6 +16,7 @@ function postTemplate(props) {
                         {/* Found Item */}
                         <Card style={{ width: '100%', backgroundColor: '#d4f1f4', height: 'auto', borderRadius: '5px' }}>
                             <Card.Body style={{textAlign: 10}}>
+                                <Card.Text>Id: {props.itemId}</Card.Text>
                                 {/* Image */}
                                 <Card.Img variant='top' src={props.image} id='image-container'/>
                                 {/* Item Name */}
@@ -25,7 +29,7 @@ function postTemplate(props) {
                                 <Card.Text style={{textAlign: 'left', fontSize: 15}}>Location: {props.location}</Card.Text>
                                 <div className="buttonWrapper">
                                     <div className="view-Wrapper">
-                                        <Button variant="primary" id="view-button" href='/foundviewpost'>View Post</Button>
+                                        <Button variant="primary" id="view-button" onClick={getSpecificId} >View Post</Button>
                                     </div>
                                 </div>
                             </Card.Body>

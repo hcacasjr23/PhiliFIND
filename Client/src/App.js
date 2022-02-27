@@ -12,42 +12,41 @@ import Admin from './components/pages/Admin/Admin';
 import Login from './components/pages/LoginForm/LoginForm';
 import FoundViewPost from './components/pages/ViewPostComplete/FoundViewPost';
 
-import WithNavFoot from './components/WithNavFoot';
-import WithoutNavFoot from './components/WithoutNavFoot';
-
-//dependencies for Routing
+//Dependencies for React Router Dom v5.2.1
 import {
   BrowserRouter as Router,
-  Routes,
+  Switch,
   Route,
-  Link,
-  Navigate
+  Redirect,
 } from 'react-router-dom';
 
 function App() {
   return (
     <div>
       <Router>
-        {/* Links to Pages */}
-        <Routes>
+        <Switch>
+          {/* Pages without Navbar and Footer */}
+          <Route exact path='/admin' component={Admin} />
+          <Route exact path='/login' component={Login} />
 
           {/* Pages with Navbar and Footer */}
-          <Route element={<WithNavFoot />}>
-            {/* Landing page will be home component */}
-            <Route path="/" element={<Navigate replace to="/home" />} />
-            <Route path='/home' element={<Home />} />
-            <Route path='/found' element={<FoundForm />} />
-            <Route path='/lost' element={<LostForm />} />
-            <Route path='/post' element={<Posts />} />
-            <Route path='/foundviewpost' element={<FoundViewPost/>}/>
-          </Route>
-
-          {/* Pages without Navbar and Footer */}
-          <Route element={<WithoutNavFoot />}>
-            <Route path='/admin' element={<Admin />} />
-            <Route path='/login' element={<Login />} />
-          </Route>
-        </Routes>
+          <>
+            <div className='app-wrapper'>
+              <div className='app-container'>
+                <Navbar />
+                <Route exact path='/'>
+                  <Redirect to='/home' />
+                </Route>
+                <Route exact path='/home' component={Home} />
+                <Route exact path='/found' component={FoundForm} />
+                <Route exact path='/lost' component={LostForm} />
+                <Route exact path='/post' component={Posts} />
+                <Route exact path='/foundviewpost' component={FoundViewPost} />
+              </div>
+              <Footer />
+            </div>
+          </>
+        </Switch>
       </Router>
     </div>
   );

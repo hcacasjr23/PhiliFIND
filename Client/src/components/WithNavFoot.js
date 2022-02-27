@@ -1,7 +1,7 @@
 import React from 'react';
 
 //Additional Dependencies for WithNav component
-import { Outlet } from 'react-router';
+// import { Outlet } from 'react-router';
 
 //Needed Components
 import Navbar from './Navbar/Navbar';
@@ -13,7 +13,7 @@ export default () => {
         <div className='app-wrapper'>
             <div className='app-container'>
                 <Navbar />
-                <Outlet />
+                {/* <Outlet /> */}
             </div>
             <Footer />
         </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Button } from 'react-bootstrap';
 import { Grid } from '@mui/material';
 import PostTemplate from '../../PostTemplate/foundPostTemplate';
 
@@ -13,6 +14,12 @@ const Data = () => {
                 }
             )
     }, [])
+
+    // Function for getting value based on ID
+    const getValue = (event, specId) => {
+        console.log(specId)
+
+    }
     return (
         <div className='row'>
             <div className="title">
@@ -22,7 +29,21 @@ const Data = () => {
                     <Grid item={true} xs={12}>
                         {/* // Call and list data from database 1 by 1*/}
                         {item.map(item => (
-                            <PostTemplate key={item.id} image={item.fd_image} itemName={item.fd_item} itemBrand={item.fd_brand} itemColor={item.fd_color} location={item.fd_place}/>
+                            <div>
+                                <PostTemplate
+                                    key={item.id}
+                                    itemId={item.id}
+                                    image={item.fd_image}
+                                    itemName={item.fd_item}
+                                    itemBrand={item.fd_brand}
+                                    itemColor={item.fd_color}
+                                    location={item.fd_place} 
+                                />
+                                <Button type="button" variant="success" onClick={getValue(item.id)}>View ID</Button>
+
+                            </div>
+
+
                         ))}
                     </Grid>
                 </div>

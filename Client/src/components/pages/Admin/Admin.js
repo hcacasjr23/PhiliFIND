@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Import components
 import { Button } from '@mui/material';
-import { Admin, Resource, useDataProvider } from 'react-admin';
+import { Admin, Resource, fetchUtils } from 'react-admin';
 
 import Swal from 'sweetalert2';
 
@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import LoginForm from '../LoginForm/LoginForm';
 import DataList from '../../DataList/dataList';
 import { Dashboard } from '@mui/icons-material';
+import simpleRestProvider from 'ra-data-simple-rest';
 
 
 
@@ -51,6 +52,7 @@ function AdminPage() {
         title: 'Incorrect Login Details',
       })
     }
+    console.log('http://localhost/philiFIND/getFoundData.php')
   }
 
   const Logout = () => {
@@ -61,6 +63,17 @@ function AdminPage() {
   const Debug = () =>{
     console.log("")
   }
+  const [items, setItems] = useState([])
+  useEffect(() => {
+    fetch("http://localhost/philiFIND/getFoundData.php")
+        .then(result => result.json())
+        .then(
+            (res) => {
+                setItems(res);
+            }
+        )
+}, [])
+
 
 
   return (
@@ -68,11 +81,10 @@ function AdminPage() {
       {/* if Logged in this will show */}
       {(user.userName != "") ? (
         <div className="welcome-container">
-
-          <Admin dashboard={Dashboard} dataProvider={'http://localhost/philiFIND/getData.php'}>
-            <Resource name='data' list={DataList}/>
-          </Admin>
-
+          {/* Imma use table for this section */}
+          
+          
+        
 
           <h2>Welcome, <span>{user.userName}</span></h2>
           <Button variant="contained" color="error" onClick={Logout}>Logout</Button>
