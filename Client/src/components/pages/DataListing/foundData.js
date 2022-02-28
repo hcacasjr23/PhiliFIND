@@ -16,7 +16,7 @@ const Data = () => {
     }, [])
 
     // Function for getting value based on ID
-    const getValue = (event, specId) => {
+    const getValue = (specId) => {
         console.log(specId)
 
     }
@@ -39,7 +39,6 @@ const Data = () => {
                                     itemColor={item.fd_color}
                                     location={item.fd_place} 
                                 />
-                                <Button type="button" variant="success" onClick={getValue(item.id)}>View ID</Button>
 
                             </div>
 
