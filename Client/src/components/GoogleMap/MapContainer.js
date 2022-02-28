@@ -12,6 +12,8 @@ import {
     InfoWindow,
 } from "react-google-maps";
 
+import AutoComplete from 'react-google-autocomplete';
+
 // Geocode to acquire address, city, area, state, and ...
 import Geocode from 'react-geocode';
 Geocode.setApiKey('AIzaSyBL5x46MJOCjf0uohywjsG6p2zFNBEkaYI');
@@ -22,23 +24,50 @@ const options = {
     disableDefaultUI: true,
     zoomControl: true,
 };
-const default_position = {
-    lat: 14.599512,
-    lng: 120.984222,
-};
 
 export default class MapContainer extends Component {
 
     state = {
         address: '',
         mapPosition: {
-            lat: default_position.lat,
-            lng: default_position.lng,
+            lat: '',
+            lng: '',
         },
         markerPosition: {
-            lat: default_position.lat,
-            lng: default_position.lng,
+            lat: '',
+            lng: '',
         },
+    }
+
+    componentDidMount() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                const newLat = position.coords.latitude;
+                const newLng = position.coords.longitude;
+
+                this.setState({
+                    mapPosition: {
+                        lat: newLat,
+                        lng: newLng,
+                    },
+                    markerPosition: {
+                        lat: newLat,
+                        lng: newLng,
+                    }
+                }, () => {
+                    Geocode.fromLatLng(newLat, newLng)
+                        .then(response => {
+
+                            console.log(response);
+                            const address = response.results[0].formatted_address;
+
+                            this.setState({
+                                address: { address } ? address : '',
+                            });
+                        });
+                })
+            })
+        }
     }
 
     // Handlers
@@ -49,22 +78,39 @@ export default class MapContainer extends Component {
         Geocode.fromLatLng(newLat, newLng)
             .then(response => {
 
-                console.log(response)
-                const address = response.results[0].formatted_address, 
-                addressArray = response.results[0].address_components;
-                
+                console.log(response);
+                const address = response.results[0].formatted_address;
+
                 this.setState({
-                    address: {address} ? address : '',
-                    mapPosition : {
+                    address: { address } ? address : '',
+                    mapPosition: {
                         lat: newLat,
                         lng: newLng,
                     },
-                    markerPosition : {
+                    markerPosition: {
                         lat: newLat,
                         lng: newLng,
                     }
-                })
+                });
             });
+    }
+
+    onPlaceSelected = (place) => {
+        const newLat = place.geometry.location.lat();
+        const newLng = place.geometry.location.lng();
+        const address = place.formatted_address;
+
+        this.setState({
+            address: { address } ? address : '',
+            mapPosition: {
+                lat: newLat,
+                lng: newLng,
+            },
+            markerPosition: {
+                lat: newLat,
+                lng: newLng,
+            }
+        })
     }
 
 
@@ -87,6 +133,12 @@ export default class MapContainer extends Component {
                         </div>
                     </InfoWindow>
                 </Marker>
+
+                <AutoComplete
+                    style={{ width: '100%', height: '40px', marginTop: '1rem' }}
+                    onPlaceSelected={this.onPlaceSelected}
+                />
+
             </GoogleMap>
         ));
 

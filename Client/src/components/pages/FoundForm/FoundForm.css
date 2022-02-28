@@ -12,8 +12,7 @@
 
 .found-form .middle {
     margin-top: 5rem;
-    /* Base margin-bottom with google-map-wrapper margin-bottom */
-    margin-bottom: 3.5rem;
+    margin-bottom: 5.5rem;
 }
 
 .found-form .section-header  {
@@ -42,6 +41,7 @@
     text-transform: none;
     font-size: 1rem;
     box-shadow: none;
+    font-weight: 300;
 }
 
 #uploadButton:hover {
@@ -60,6 +60,7 @@
     box-shadow: none;
     margin-top: 5px;
     align-self: right;
+    font-weight: 300;
 }
 
 #removeButton:hover {
@@ -84,6 +85,7 @@
     font-family: 'Open Sans', sans-serif;
     text-transform: none;
     font-size: 1rem;
+    font-weight: 300;
 }
 
 #postButton:hover {
@@ -97,8 +99,7 @@
 }
 
 .google-map-wrapper {
-    height: 480px;
-    margin-bottom: 1.5rem;
+    height: auto;
     width: 100%;
 }
 

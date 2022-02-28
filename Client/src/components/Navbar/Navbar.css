@@ -28,7 +28,6 @@
 
 .navbar-logo:hover > a {
     color: var(--color-primary);
-    font-weight: bold;
 }
 
 

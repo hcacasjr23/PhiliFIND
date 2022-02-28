@@ -1,0 +1,84 @@
+.gm-style-iw > button {
+    display: none !important;
+}
+
+.gm-style-iw {
+    border-radius: 0 !important;
+}
+
+#Combobox {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#Combobox input {
+    width: 100%;
+    border-radius: 0;
+    border: 1px solid #bdbdbd;
+    background-color: var(--color-white-dirty);
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+#Combobox input:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+#Combobox input:focus {
+    outline: 0;
+    border-color: var(--color-primary);
+    box-shadow: inset 0px 0px 0px 1px var(--color-primary);
+}
+
+#ComboboxPopover {
+    background-color: white;
+}
+
+#ComboboxPopover ul {
+    list-style-type: none;
+}
+
+#ComboboxPopover li {
+    padding: 0.7rem 1rem;
+}
+
+#ComboboxPopover li:hover {
+    background-color: var(--color-gray);
+}
+
+.google-map-container .row {
+    display: flex;
+}
+
+.google-map-container .row .column-left {
+    flex: 1;
+}
+
+#locate {
+    border-top: 1px solid var(--color-primary);
+    border-right: 1px solid var(--color-primary);
+    border-bottom: 1px solid var(--color-primary);
+    border-radius: 0;
+    background-color: var(--color-primary);
+    color: var(--color-white-dirty);
+    font-weight: normal;
+    text-transform: none;
+    font-size: 1rem;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+}
+
+#locate:hover {
+    border: 1px solid var(--color-primary);
+    border-radius: 0;
+    background-color: var(--color-white-dirty);
+    color: var(--color-primary);
+}
+
+@media only screen and (max-width: 600px) {
+    .google-map-container .row {
+        flex-direction: column;
+    }
+}
