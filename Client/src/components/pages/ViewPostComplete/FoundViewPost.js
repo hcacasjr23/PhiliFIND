@@ -5,6 +5,7 @@ import {TextField} from '@mui/material';
 
 // Import CSS
 import './styles.css';
+import { Button } from 'react-bootstrap';
 
 function ViewPost ()  {
     const [dataItem, setDataItem] = useState([])
@@ -17,20 +18,26 @@ function ViewPost ()  {
               }
           )
   }, [])
+
+  const handleSubmit = (event) => {
+    console.log(event)
+  }
   return (
       
     <div>
       ViewPost
       {dataItem.map(dataItem => (
-        <div className='container'>
+        <div key={dataItem.id} className='container'>
           <div className="itemName-container">
+          {/* Will edit this on backend to get certain ID */}
             <TextField
               key={dataItem.id}
-              label={dataItem.fd_item}
+              value={dataItem.fd_item}
               disabled
               variant='outlined'
             />
           </div>
+          <Button>{dataItem.fd_item}</Button>
         </div>
       ))}
     </div>

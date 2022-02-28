@@ -5,8 +5,8 @@ import {Container} from '@mui/material';
 
 function postTemplate(props, itemId, Data) {
 
-    const getSpecificId = (event) => {
-        console.log(event.target);
+    const getSpecificId = (id) => {
+        console.log(id);
     }
 
     return (
@@ -29,7 +29,7 @@ function postTemplate(props, itemId, Data) {
                                 <Card.Text style={{textAlign: 'left', fontSize: 15}}>Location: {props.location}</Card.Text>
                                 <div className="buttonWrapper">
                                     <div className="view-Wrapper">
-                                        <Button variant="primary" id="view-button" onClick={getSpecificId} >View Post</Button>
+                                        <Button variant="primary" id="view-button" href='/foundviewpost' >View Post</Button>
                                     </div>
                                 </div>
                             </Card.Body>
