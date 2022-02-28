@@ -30,15 +30,19 @@ function ViewPost ()  {
         <div key={dataItem.id} className='container'>
           <div className="itemName-container">
           {/* Will edit this on backend to get certain ID */}
+            {/* <TextField
+              value={dataItem.fd_item($row('selectedId'))}
+
+            /> */}
             <TextField
               key={dataItem.id}
-              value={dataItem.fd_item}
+              value={dataItem.fd_item[0]}
               disabled
               variant='outlined'
             />
           </div>
           <Button>{dataItem.fd_item}</Button>
-        </div>
+        </div>, 1
       ))}
     </div>
   )
