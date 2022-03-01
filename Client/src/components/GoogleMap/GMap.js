@@ -21,6 +21,7 @@ import {
     ComboboxList,
     ComboboxOption,
 } from "@reach/combobox";
+import "@reach/combobox/styles.css";
 
 // MUI Dependencies
 import { Button } from '@mui/material'
@@ -31,6 +32,8 @@ import mapStyles from './mapStyles';
 
 // Geocode to acquire address
 import Geocode from 'react-geocode';
+import { add } from "date-fns";
+import { areDayPropsEqual } from "@mui/lab/PickersDay/PickersDay";
 
 // Constants
 const apiKey = 'AIzaSyBL5x46MJOCjf0uohywjsG6p2zFNBEkaYI';
@@ -47,7 +50,7 @@ const options = {
 
 Geocode.setApiKey(apiKey);
 
-export default function GMap() {
+export default function GMap(props) {
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: apiKey,
         libraries,
@@ -103,7 +106,7 @@ export default function GMap() {
     // Pans to Requested Position
     const panTo = useCallback(({ lat, lng }) => {
         mapRef.current.panTo({ lat, lng });
-        mapRef.current.setZoom(14);
+        mapRef.current.setZoom(16);
     }, []);
 
     // Gets Address of Passed in Latitude and Longitude
@@ -112,9 +115,13 @@ export default function GMap() {
             .then(response => {
                 const address = response.results[0].formatted_address;
                 setAddress(address);
-                console.log(address)
             })
     };
+
+    // Passes address data to Form component when address value changes
+    useEffect(async () => {
+        props.setMapAddress(address);
+    }, [address])
 
     if (loadError) return "Error";
     if (!isLoaded) return "Loading...";
@@ -128,6 +135,7 @@ export default function GMap() {
                         markers={markers}
                         moveMarker={moveMarker}
                         getAddress={getAddress}
+                        address={address}
                     />
                 </div>
                 <div className="column-right">
@@ -180,7 +188,7 @@ export default function GMap() {
     );
 }
 
-function Locate({ panTo, moveMarker, getAddress }) {
+function Locate(props) {
     return (
         <Button
             id="locate"
@@ -190,15 +198,15 @@ function Locate({ panTo, moveMarker, getAddress }) {
                     (position) => {
                         const newLat = position.coords.latitude;
                         const newLng = position.coords.longitude;
-                        panTo({
+                        props.panTo({
                             lat: newLat,
                             lng: newLng,
                         });
-                        moveMarker({
+                        props.moveMarker({
                             lat: newLat,
                             lng: newLng,
                         });
-                        getAddress(newLat, newLng);
+                        props.getAddress(newLat, newLng);
                     },
                     () => null
                 );
@@ -217,7 +225,7 @@ function Locate({ panTo, moveMarker, getAddress }) {
     );
 }
 
-function Search({ panTo, markers, moveMarker, getAddress }) {
+function Search(props) {
     const {
         ready,
         value,
@@ -226,7 +234,7 @@ function Search({ panTo, markers, moveMarker, getAddress }) {
         clearSuggestions,
     } = usePlacesAutocomplete({
         requestOptions: {
-            location: { lat: () => markers.lat, lng: () => markers.lng },
+            location: { lat: () => props.markers.lat, lng: () => props.markers.lng },
             radius: 100 * 1000,
         },
     });
@@ -235,43 +243,44 @@ function Search({ panTo, markers, moveMarker, getAddress }) {
         setValue(e.target.value);
     };
 
+    // Retrieves Suggestions from Geocode
     const handleSelect = async (address) => {
         setValue(address, false);
         clearSuggestions();
-        
+
         try {
             const results = await getGeocode({ address });
             const { lat, lng } = await getLatLng(results[0]);
-            panTo({ lat, lng });
-            moveMarker({ lat, lng });
-            getAddress(lat, lng);
+            props.panTo({ lat, lng });
+            props.moveMarker({ lat, lng });
+            props.getAddress(lat, lng);
         } catch (error) {
             console.log("😱 Error: ", error);
         }
     };
 
-    const changeValue = (address) => {
-        setValue(address);
-    }
+    // Changes Combobox Value when Address changes
+    useEffect(() => {
+        setValue(props.address, false);
+        clearSuggestions();
+    }, [props.address])
 
     return (
-        <div>
-            <Combobox onSelect={handleSelect} id='Combobox'>
-                <ComboboxInput
-                    value={value}
-                    onChange={handleInput}
-                    disabled={!ready}
-                    placeholder="Name of Place/Location"
-                />
-                <ComboboxPopover id='ComboboxPopover'>
-                    <ComboboxList>
-                        {status === "OK" &&
-                            data.map(({ id, description }) => (
-                                <ComboboxOption key={id} value={description} />
-                            ))}
-                    </ComboboxList>
-                </ComboboxPopover>
-            </Combobox>
-        </div>
+        <Combobox onSelect={handleSelect} id='Combobox'>
+            <ComboboxInput
+                value={value}
+                onChange={handleInput}
+                disabled={!ready}
+                placeholder="Name of Place/Location"
+            />
+            <ComboboxPopover id='ComboboxPopover'>
+                <ComboboxList id ='ComboboxList'>
+                    {status === "OK" &&
+                        data.map(({ id, description }) => (
+                            <ComboboxOption key={id} value={description} />
+                        ))}
+                </ComboboxList>
+            </ComboboxPopover>
+        </Combobox>
     );
 }

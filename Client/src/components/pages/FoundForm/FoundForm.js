@@ -1,25 +1,20 @@
-import React, { Component, useState } from 'react';
-import { Form } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
 import './FoundForm.css';
 
-//Components Needed
-// import Maps from '../../GoogleMap/map.js';
-import Maps, { changeValue } from '../../GoogleMap/GMap.js';
-
-//MUI Styled Components
+// Components Needed
+import Maps from '../../GoogleMap/GMap.js';
 import { StyledTextField, StyledFormControl } from '../StyledComponents.js';
 
-//Backend
+// Backend
 import axios from 'axios'
 
-//Additional Dependencies for FoundForm
+// Additional Dependencies for FoundForm
 import {
-    Container, Grid, TextField, Button, Box, InputLabel,
-    MenuItem, FormControl, Select, Paper, Alert, AlertTitle
+    Container, Grid, Button,
+    InputLabel, MenuItem, Select
 } from '@mui/material';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { breakpoints } from '@mui/system';
 import swal from 'sweetalert';
 
 function FoundForm() {
@@ -29,7 +24,6 @@ function FoundForm() {
         fd_item: '',
         fd_brand: '',
         fd_place: '',
-        fd_zip: '',
         fd_name: '',
         fd_color: '',
         fd_email: '',
@@ -39,8 +33,15 @@ function FoundForm() {
         fd_time: new Date(),
         fd_category: '',
         fd_addinfo: '',
-        fd_image: ''
+        fd_image: null,
     })
+
+    const [mapAddress, setMapAddress] = useState()
+
+    useEffect(() => {
+        setValues({ ...values, fd_place: mapAddress })
+    }, [mapAddress])
+
 
     //Default values for text field error prop
     const [itemError, setItemError] = useState(false)
@@ -49,8 +50,6 @@ function FoundForm() {
     const [nameError, setNameError] = useState(false)
     const [emailError, setEmailError] = useState(false)
     const [pContactError, setPContactError] = useState(false)
-    const [locationError, setLocationError] = useState(false)
-    const [zipError, setZipError] = useState(false)
 
     //Input Formatting
     const validemailFormat = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$')
@@ -62,16 +61,16 @@ function FoundForm() {
         //Collects all error
         var errorArray = [];
 
-        if (values.fd_item === '') {
+        if (values.fd_item.trim() === '') {
             errorArray.push('Item Found')
         }
-        if (values.fd_brand === '') {
+        if (values.fd_brand.trim() === '') {
             errorArray.push('Brand/Breed')
         }
-        if (values.fd_color === '') {
+        if (values.fd_color.trim() === '') {
             errorArray.push('Color')
         }
-        if (values.fd_name === '') {
+        if (values.fd_name.trim() === '') {
             errorArray.push('Name')
         }
         if (!validemailFormat.test(values.fd_email)) {
@@ -80,19 +79,13 @@ function FoundForm() {
         if (!validPhoneNo.test(values.fd_pcontact)) {
             errorArray.push('Primary Contact')
         }
-        if (values.fd_place === '') {
-            errorArray.push('Name of Place/Location')
-        }
-        if (values.fd_zip === '') {
-            errorArray.push('Zip Code')
-        }
 
         var errorCompilation = errorArray.join(', ');
 
         //Pop-up error for invalid inputs
         if (errorArray.length) {
             swal({
-                title: 'The ff. fields contain invalid value\'s',
+                title: 'The ff. fields contain invalid value/s',
                 text: `${errorCompilation}`,
                 icon: 'warning',
                 button: 'Return to Form',
@@ -108,20 +101,18 @@ function FoundForm() {
             setNameError(false);
             setEmailError(false);
             setPContactError(false);
-            setLocationError(false);
-            setZipError(false);
 
             //Sets error prop when invalid input
-            if (values.fd_item.trim() === '') {
+            if (values.fd_item) {
                 setItemError(true);
             }
-            if (values.fd_brand.trim() === '') {
+            if (values.fd_brand) {
                 setBrandError(true);
             }
-            if (values.fd_color.trim() === '') {
+            if (values.fd_color) {
                 setColorError(true);
             }
-            if (values.fd_name.trim() === '') {
+            if (values.fd_name) {
                 setNameError(true);
             }
             if (!validemailFormat.test(values.fd_email)) {
@@ -129,12 +120,6 @@ function FoundForm() {
             }
             if (!validPhoneNo.test(values.fd_pcontact)) {
                 setPContactError(true);
-            }
-            if (values.fd_place.trim() === '') {
-                setLocationError(true);
-            }
-            if (values.fd_zip.trim() === '') {
-                setZipError(true);
             }
         }
         else {
@@ -168,9 +153,14 @@ function FoundForm() {
     //Sets value of image
     const uploadImage = async (e) => {
         const file = e.target.files[0];
+        console.log(e.target.files)
         const base64 = await convertBase64(file);
         setValues({ ...values, fd_image: base64 })
     };
+
+    const removeImage = async (e) => {
+        setValues({ ...values, fd_image: null });
+    }
 
     //Convert file object to base64
     const convertBase64 = (file) => {
@@ -196,15 +186,13 @@ function FoundForm() {
                 {/* Item Found Information Section*/}
                 <div className="wrapper">
 
-                    {/* Container for Grid */}
                     <Container>
 
                         <div className="section-header"><div className='section-header-wrapper'>Found Item Information</div></div><br />
 
-                        {/* Controller for grid spacing */}
                         <Grid container spacing={2}>
+                            {/* Item Found Field */}
                             <Grid item={true} xs={12} sm={12} md={6}>
-                                {/* Item Found Field */}
                                 <StyledTextField
                                     id="fd_item"
                                     label="Item Found"
@@ -295,14 +283,15 @@ function FoundForm() {
                                                 labelId="fd_category-id"
                                                 id="fd_category-id"
                                                 value={values.fd_category}
+                                                defaultValue=""
                                                 label="Category"
-                                                onChange={(event) => setValues({ ...values, fd_category: event.target.value })}
+                                                onChange={(e) => setValues({ ...values, fd_category: e.target.value })}
                                             >
                                                 <MenuItem value={'Animal'}>Animal/Pet</MenuItem>
                                                 <MenuItem value={'Clothing'}>Clothing</MenuItem>
-                                                <MenuItem value={'Clothing'}>Money</MenuItem>
-                                                <MenuItem value={'Clothing'}>Document</MenuItem>
-                                                <MenuItem value={'Clothing'}>Equipment</MenuItem>
+                                                <MenuItem value={'Money'}>Money</MenuItem>
+                                                <MenuItem value={'Document'}>Document</MenuItem>
+                                                <MenuItem value={'Equipment'}>Equipment</MenuItem>
                                                 <MenuItem value={'Electronic Gadget'}>Electronic Gadget</MenuItem>
                                                 <MenuItem value={'Personal Accessory'}>Personal Accessory</MenuItem>
                                             </Select>
@@ -321,7 +310,6 @@ function FoundForm() {
                                             fullWidth
                                             multiline
                                             rows={3}
-                                            maxRows={4}
                                             onChange={(e) => setValues({ ...values, fd_addinfo: e.target.value })}
                                         />
                                     </Grid>
@@ -338,6 +326,9 @@ function FoundForm() {
                                             component='label'
                                             id='uploadButton'
                                             sx={{ height: 30 }}
+                                            onClick={(e) => {
+                                                e.target.value = null;
+                                            }}
                                         >
                                             Upload Image
                                             <input
@@ -359,7 +350,9 @@ function FoundForm() {
                                                 variant='contained'
                                                 id='removeButton'
                                                 sx={{ height: 30 }}
-                                                onClick={(e) => setValues({ ...values, fd_image: e.target.value })}
+                                                onClick={(e) => {
+                                                    removeImage(e);
+                                                }}
                                             >
                                                 Remove
                                             </Button>
@@ -386,7 +379,9 @@ function FoundForm() {
                             {/* Google Map API */}
                             <Grid item={true} xs={12}>
                                 <div className="google-map-wrapper">
-                                    <Maps />
+                                    <Maps
+                                        setMapAddress={setMapAddress}
+                                    />
                                 </div>
                             </Grid>
                             {/* End of Google Map API */}
@@ -421,7 +416,7 @@ function FoundForm() {
                             </Grid>
                             {/* End of Contact fd_name Field */}
 
-                            {/* fd_email Field*/}
+                            {/* Email Field*/}
                             <Grid item={true} xs={12} sm={6}>
                                 <StyledTextField
                                     id="fd_email"

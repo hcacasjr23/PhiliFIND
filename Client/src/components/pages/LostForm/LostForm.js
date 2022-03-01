@@ -1,27 +1,23 @@
-import React, { Component, useState } from 'react';
-import { Form } from 'react-bootstrap';
+import React, { useState } from 'react';
 import './LostForm.css';
 
-//Components Needed
-import Maps from '../../GoogleMap/map.js';
-
-//MUI Styled Components
+// Components Needed
+import Maps from '../../GoogleMap/GMap.js';
 import { StyledTextField, StyledFormControl } from '../StyledComponents.js';
 
-//Backend
+// Backend
 import axios from 'axios'
 
-//Additional Dependencies for FoundForm
+// Additional Dependencies for FoundForm
 import {
-    Container, Grid, TextField, Button, Box, InputLabel,
-    MenuItem, FormControl, Select, Paper, Alert, AlertTitle
+    Container, Grid, Button, 
+    InputLabel, MenuItem, Select
 } from '@mui/material';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { breakpoints } from '@mui/system';
 import swal from 'sweetalert';
 
-function FoundForm() {
+function LostForm() {
 
     //Default value for variables
     const [values, setValues] = useState({
@@ -48,8 +44,6 @@ function FoundForm() {
     const [nameError, setNameError] = useState(false)
     const [emailError, setEmailError] = useState(false)
     const [pContactError, setPContactError] = useState(false)
-    const [locationError, setLocationError] = useState(false)
-    const [zipError, setZipError] = useState(false)
 
     //Input Formatting
     const validemailFormat = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$')
@@ -79,19 +73,13 @@ function FoundForm() {
         if (!validPhoneNo.test(values.lt_pcontact)) {
             errorArray.push('Primary Contact')
         }
-        if (values.lt_place === '') {
-            errorArray.push('Name of Place/Location')
-        }
-        if (values.lt_zip === '') {
-            errorArray.push('Zip Code')
-        }
 
         var errorCompilation = errorArray.join(', ');
 
         //Pop-up error for invalid inputs
         if (errorArray.length) {
             swal({
-                title: 'The ff. fields contain invalid value\'s',
+                title: 'The ff. fields contain invalid value/s',
                 text: `${errorCompilation}`,
                 icon: 'warning',
                 button: 'Return to Form',
@@ -107,8 +95,6 @@ function FoundForm() {
             setNameError(false);
             setEmailError(false);
             setPContactError(false);
-            setLocationError(false);
-            setZipError(false);
 
             //Sets error prop when invalid input
             if (values.lt_item.trim() === '') {
@@ -128,12 +114,6 @@ function FoundForm() {
             }
             if (!validPhoneNo.test(values.lt_pcontact)) {
                 setPContactError(true);
-            }
-            if (values.lt_place.trim() === '') {
-                setLocationError(true);
-            }
-            if (values.lt_zip.trim() === '') {
-                setZipError(true);
             }
         } 
         else {
@@ -195,15 +175,13 @@ function FoundForm() {
                 {/* Item Lost Information Section*/}
                 <div className="wrapper">
 
-                    {/* Container for Grid */}
                     <Container>
 
                         <div className="section-header"><div className='section-header-wrapper'>Lost Item Information</div></div><br />
 
-                        {/* Controller for grid spacing */}
                         <Grid container spacing={2}>
+                            {/* Item Lost Field */}
                             <Grid item={true} xs={12} sm={12} md={6}>
-                                {/* Item Lost Field */}
                                 <StyledTextField
                                     id="lt_item"
                                     label="Item Lost"
@@ -299,8 +277,11 @@ function FoundForm() {
                                             >
                                                 <MenuItem value={'Animal'}>Animal/Pet</MenuItem>
                                                 <MenuItem value={'Clothing'}>Clothing</MenuItem>
-                                                <MenuItem value={'Electronic gadgets'}>Electronic gadgets</MenuItem>
-                                                <MenuItem value={'Personal accessories'}>Personal accessories</MenuItem>
+                                                <MenuItem value={'Money'}>Money</MenuItem>
+                                                <MenuItem value={'Document'}>Document</MenuItem>
+                                                <MenuItem value={'Equipment'}>Equipment</MenuItem>
+                                                <MenuItem value={'Electronic Gadget'}>Electronic Gadget</MenuItem>
+                                                <MenuItem value={'Personal Accessory'}>Personal Accessory</MenuItem>
                                             </Select>
                                         </StyledFormControl>
                                     </Grid>
@@ -380,51 +361,12 @@ function FoundForm() {
                         <Grid container spacing={2} direction='row'>
 
                             {/* Google Map API */}
-                            <Grid item={true} xs={12} md={9}>
+                            <Grid item={true} xs={12}>
                                 <div className="google-map-wrapper">
                                     <Maps />
                                 </div>
                             </Grid>
                             {/* End of Google Map API */}
-
-                            <Grid item={true} xs={12} sm={6} md={3}>
-                                <Grid container direction='column' spacing={2}>
-                                    {/* lt_name of lt_place/Location Field */}
-                                    <Grid item={true} xs={12} sm='auto'>
-                                        <StyledTextField
-                                            id="location"
-                                            label="Name of Place/Location"
-                                            variant="outlined"
-                                            name='location'
-                                            size='medium'
-                                            fullWidth
-                                            required
-                                            value={values.lt_place}
-                                            onChange={(e) => setValues({ ...values, lt_place: e.target.value })}
-                                            required
-                                            error={locationError}
-                                        />
-                                    </Grid>
-                                    {/* End of Name of Place/Location Field */}
-
-                                    {/* Zip Code */}
-                                    <Grid item={true} xs={12} sm='auto'>
-                                        <StyledTextField
-                                            id="zip-code"
-                                            label="Zip Code"
-                                            variant="outlined"
-                                            name='zip-code'
-                                            size='medium'
-                                            fullWidth
-                                            value={values.lt_zip}
-                                            onChange={(e) => setValues({ ...values, lt_zip: e.target.value })}
-                                            required
-                                            error={zipError}
-                                        />
-                                    </Grid>
-                                    {/* End of Zip Code */}
-                                </Grid>
-                            </Grid>
                         </Grid>
                     </Container>
                 </div>
@@ -435,7 +377,7 @@ function FoundForm() {
 
                     <Container>
 
-                        <br /><div className='section-header'><div className='section-header-wrapper'>Keeper Contact Information</div></div><br />
+                        <br /><div className='section-header'><div className='section-header-wrapper'>Finder Contact Information</div></div><br />
 
                         <Grid container rowSpacing={2} columnSpacing={2}>
 
@@ -532,4 +474,4 @@ function FoundForm() {
     );
 }
 
-export default FoundForm;
+export default LostForm;
