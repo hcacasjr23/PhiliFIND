@@ -34,6 +34,7 @@ import mapStyles from './mapStyles';
 import Geocode from 'react-geocode';
 import { add } from "date-fns";
 import { areDayPropsEqual } from "@mui/lab/PickersDay/PickersDay";
+import { alignProperty } from "@mui/material/styles/cssUtils";
 
 // Constants
 const apiKey = 'AIzaSyBL5x46MJOCjf0uohywjsG6p2zFNBEkaYI';
@@ -136,6 +137,7 @@ export default function GMap(props) {
                         moveMarker={moveMarker}
                         getAddress={getAddress}
                         address={address}
+                        setAddress={setAddress}
                     />
                 </div>
                 <div className="column-right">
@@ -241,6 +243,7 @@ function Search(props) {
 
     const handleInput = (e) => {
         setValue(e.target.value);
+        props.setAddress(e.target.value);
     };
 
     // Retrieves Suggestions from Geocode

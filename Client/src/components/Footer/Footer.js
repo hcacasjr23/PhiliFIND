@@ -35,7 +35,7 @@ const Footer = () => {
                 </div>
                 <div className='row'>
                     <p className='col-sm'>
-                        &copy;{new Date().getFullYear()} PhiliFIND | All rights reserved | Terms of Service | Privacy
+                        &copy;{new Date().getFullYear()} PhiliFIND | CET V Project by Ken & Henry
                     </p>
                 </div>
             </Container>            

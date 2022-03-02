@@ -87,7 +87,7 @@ function FoundForm() {
             swal({
                 title: 'The ff. fields contain invalid value/s',
                 text: `${errorCompilation}`,
-                icon: 'warning',
+                icon: 'error',
                 button: 'Return to Form',
             })
 
@@ -125,7 +125,7 @@ function FoundForm() {
         else {
             sendPostRequest();
             //Reloads page upon submit
-            window.location.reload();
+            //window.location.reload();
         }
     }
 
@@ -148,6 +148,15 @@ function FoundForm() {
             .catch(error => setValues({
                 error: "this is an error"
             }));
+    }
+
+    const confirmSubmit = () => {
+        swal({
+            title: 'Confirm Report Submission',
+            text: 'Are you sure the details you have filled are correct?',
+            icon: 'warning',
+            button: 'Return to Form',
+        })
     }
 
     //Sets value of image
@@ -470,7 +479,7 @@ function FoundForm() {
                         <div className='button-wrapper'>
                             <Button
                                 id="postButton"
-                                onClick={handleSubmit}
+                                onClick={confirmSubmit}
                                 sx={{
                                     width: {
                                         xs: '100%',

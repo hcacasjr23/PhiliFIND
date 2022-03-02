@@ -1,7 +1,7 @@
 import React from 'react';
 
 //Additional Dependencies for Homepage
-import { Button, Container } from '@mui/material';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 
 import './Home.css';
 
@@ -10,7 +10,11 @@ const Home = () => {
         <div className='home'>
             <div className='hero-section'>
                 <div className='header'>
-                    <span>Welcome to </span><span className='highlight'>PhiliFIND</span>
+                    <h1>Welcome to </h1>
+                    <div className='highlight'>
+                        <TravelExploreIcon className='icon' />
+                        PhiliFIND
+                    </div>
                     <p className='show'>
                         reuniting items with their owners within just a few clicks
                     </p>

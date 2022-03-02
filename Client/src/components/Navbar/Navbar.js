@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 //Additional Dependencies for Navbar Component
 import { MenuItems } from './MenuItems';
 import { Container } from '@mui/material';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 
 import './Navbar.css';
 
@@ -21,7 +22,12 @@ class Navbar extends Component {
                 {/* Container is used to make margin consistent with other pages */}
                 <Container>
                     <nav className='navbar-items'>
-                        <div className='navbar-logo'><a href="/home">PhiliFIND</a></div>    
+                        <div className='navbar-logo'>
+                            <a href="/home">
+                                <TravelExploreIcon className='navbar-icon' />
+                                PhiliFIND
+                            </a>
+                        </div>
                         <div className="nav-menuicon" onClick={this.handleClick}>
                             {/* Displays icon depending on the clicked state */}
                             <i className={this.state.clicked ? 'fas fa-times' : 'fas fa-bars'}></i>

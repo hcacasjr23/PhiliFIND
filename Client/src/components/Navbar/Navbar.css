@@ -17,9 +17,15 @@
 }
 
 .navbar-logo a {
+    display: flex;
+    align-items: center;
     color: var(--color-white-dirty);
     text-decoration: none;
     transition: all 0.3s ease-in-out;
+}
+
+.navbar-icon {
+    margin-right: 0.2rem;
 }
 
 .navbar-logo:hover {
