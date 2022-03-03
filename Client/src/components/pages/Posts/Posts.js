@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 
 import './Posts.css';
+
 import { Container, Grid, InputAdornment } from '@mui/material'
 import { StyledTextField } from '../StyledComponents.js'
 import SearchIcon from '@mui/icons-material/Search';
 
-<<<<<<< HEAD
 import FoundData from '../ItemLists/FoundItemList';
 import LostData from '../ItemLists/LostItemList';
-=======
-import FoundData from '../DataListing/foundData';
-import LostData from '../DataListing/lostData';
->>>>>>> 81d2c9f5cf6d938ca63a04525d7814560f11666f
 
 function Posts() {
 
