@@ -10,12 +10,21 @@ import axios from 'axios'
 
 // Additional Dependencies for FoundForm
 import {
-    Container, Grid, Button,
-    InputLabel, MenuItem, Select
+    Container,
+    Grid,
+    Button,
+    InputLabel,
+    MenuItem,
+    Select
 } from '@mui/material';
-import { DatePicker, LocalizationProvider, TimePicker } from '@mui/lab';
+import {
+    DatePicker,
+    LocalizationProvider,
+    TimePicker
+} from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import swal from 'sweetalert';
+import Swal from 'sweetalert2'
 
 function FoundForm() {
 
@@ -36,12 +45,21 @@ function FoundForm() {
         fd_image: null,
     })
 
+    // Address from Google Map Component
     const [mapAddress, setMapAddress] = useState()
 
     useEffect(() => {
         setValues({ ...values, fd_place: mapAddress })
     }, [mapAddress])
 
+    const [minDate, setMinDate] = useState()
+
+    // Set minimum date to 3 months prior to current
+    useEffect(() => {
+        let currentDate = new Date();
+        currentDate.setMonth(currentDate.getMonth() - 3);
+        setMinDate(currentDate);
+    }, [])
 
     //Default values for text field error prop
     const [itemError, setItemError] = useState(false)
@@ -84,11 +102,12 @@ function FoundForm() {
 
         //Pop-up error for invalid inputs
         if (errorArray.length) {
-            swal({
+
+            OneButtonDialog.fire({
                 title: 'The ff. fields contain invalid value/s',
                 text: `${errorCompilation}`,
                 icon: 'error',
-                button: 'Return to Form',
+                confirmButtonText: 'Return to Report Form',
             })
 
             //Prevents page from refreshin when submitted
@@ -123,7 +142,27 @@ function FoundForm() {
             }
         }
         else {
-            sendPostRequest();
+
+            ConfirmDialog.fire({
+                title: 'Confirm Report Submission',
+                text: "Are you sure with the details filled above?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Submit Report',
+                cancelButtonText: 'No, Check Report',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    sendPostRequest();
+                    OneButtonDialog.fire({
+                        title: 'Report Has ',
+                        icon: 'successful',
+                        confirmButtonText: 'Return to Home',
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+                }
+            })
+
             //Reloads page upon submit
             //window.location.reload();
         }
@@ -150,19 +189,31 @@ function FoundForm() {
             }));
     }
 
-    const confirmSubmit = () => {
-        swal({
-            title: 'Confirm Report Submission',
-            text: 'Are you sure the details you have filled are correct?',
-            icon: 'warning',
-            button: 'Return to Form',
-        })
-    }
+    // Custom Swal Popups
+    const ConfirmDialog = Swal.mixin({
+        customClass: {
+            confirmButton: 'fd-btn fd-btn-confirm',
+            cancelButton: 'fd-btn fd-btn-cancel',
+            popup: 'fd-border-radius-0',
+        },
+        buttonsStyling: false,
+        background: '#FAF8F8',
+        width: 500,
+    })
+
+    const OneButtonDialog = Swal.mixin({
+        customClass: {
+            confirmButton: 'fd-btn-return',
+            popup: 'fd-border-radius-0',
+        },
+        buttonsStyling: false,
+        background: '#FAF8F8',
+        width: 500,
+    })
 
     //Sets value of image
     const uploadImage = async (e) => {
         const file = e.target.files[0];
-        console.log(e.target.files)
         const base64 = await convertBase64(file);
         setValues({ ...values, fd_image: base64 })
     };
@@ -221,15 +272,23 @@ function FoundForm() {
                             <Grid item={true} xs={12} sm={6} md={3}>
                                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                                     <DatePicker
+                                        allowSameDateSelection
                                         disableFuture
-                                        openTo='year'
-                                        views={['year', 'month', 'day']}
-                                        label="Date Found"
+                                        minDate={minDate}
+                                        openTo='month'
+                                        views={['month', 'day', 'year']}
+                                        label="Estimated Date Found"
                                         value={values.fd_date}
-                                        onChange={(e) => {
-                                            setValues({ ...values, fd_date: e });
-                                        }}
-                                        renderInput={(params) => <StyledTextField {...params} helperText={null} fullWidth />}
+                                        onChange={(e) => { setValues({ ...values, fd_date: e }) }}
+                                        renderInput={(params) =>
+                                            <StyledTextField {...params}
+                                                fullWidth
+                                                onKeyDown={(e) => {
+                                                    e.preventDefault();
+                                                    return false;
+                                                }}
+                                            />
+                                        }
                                     />
                                 </LocalizationProvider>
                             </Grid>
@@ -239,10 +298,19 @@ function FoundForm() {
                             <Grid item={true} xs={12} sm={6} md={3}>
                                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                                     <TimePicker
-                                        label="Time Found"
+                                        label="Estimated Time Found"
                                         value={values.fd_time}
-                                        onChange={(e) => { setValues({ ...values, fd_time: e }) }}
-                                        renderInput={(params) => <StyledTextField {...params} fullWidth />}
+                                        onChange={(e) => {
+                                            setValues({ ...values, fd_time: e })
+                                        }}
+                                        renderInput={(params) =>
+                                            <StyledTextField {...params}
+                                                fullWidth
+                                                onKeyDown={(e) => {
+                                                    e.preventDefault();
+                                                    return false;
+                                                }}
+                                            />}
                                     />
                                 </LocalizationProvider>
                             </Grid>
@@ -479,7 +547,7 @@ function FoundForm() {
                         <div className='button-wrapper'>
                             <Button
                                 id="postButton"
-                                onClick={confirmSubmit}
+                                onClick={handleSubmit}
                                 sx={{
                                     width: {
                                         xs: '100%',

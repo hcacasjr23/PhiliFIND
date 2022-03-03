@@ -8,41 +8,34 @@ import './styles.css';
 import { Button } from 'react-bootstrap';
 
 function ViewPost ()  {
-    const [dataItem, setDataItem] = useState([])
-    useEffect(() => {
+
+  const [item, setItem] = useState([]);
+  useEffect(() => {
       fetch("http://localhost/philiFIND/getFoundData.php")
           .then(result => result.json())
           .then(
               (res) => {
-                  setDataItem(res);
+                  item(res);
               }
           )
   }, [])
-
-  const handleSubmit = (event) => {
-    console.log(event)
-  }
+  
   return (
       
     <div>
       ViewPost
-      {dataItem.map(dataItem => (
-        <div key={dataItem.id} className='container'>
+      {item.map(item => (
+        <div key={item.id} className='container'>
           <div className="itemName-container">
-          {/* Will edit this on backend to get certain ID */}
-            {/* <TextField
-              value={dataItem.fd_item($row('selectedId'))}
-
-            /> */}
             <TextField
-              key={dataItem.id}
-              value={dataItem.fd_item[0]}
+              key={item.id}
+              value={item.fd_item[0]}
               disabled
               variant='outlined'
             />
           </div>
-          <Button>{dataItem.fd_item}</Button>
-        </div>, 1
+          <Button>{item.fd_item}</Button>
+        </div>
       ))}
     </div>
   )

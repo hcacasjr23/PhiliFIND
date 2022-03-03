@@ -1,3 +1,7 @@
+body {
+    padding-right: 0 !important;
+}
+
 .found-form {
     padding: 20px;
     margin: 0%;
@@ -105,52 +109,42 @@
 }
 
 /* Swal Theming */
-.swal-overlay {
-    background-color: rgba(167, 199, 231, 0.45);
+.fd-btn {
+    border-radius: 0;
+    border: none;
+    margin: 0 1.2rem;
+    padding: 0 1rem;
+    height: 40px;
+    width: fit-content;
+    font-size: 1rem;
+    font-weight: 400;
 }
 
-.swal-modal {
-    border-radius: 0;
+.fd-btn-confirm {
+    background-color: var(--color-primary);
+    color: var(--color-white-dirty);
+    transition: all 0.2s ease-in-out;
+}
+
+.fd-btn-confirm:hover {
     background-color: var(--color-white-dirty);
-}
-
-.swal-title {
-    font-size: 1.5rem;
-}
-
-.swal-text {
-    text-align: center;
-    font-size: 1rem;
-    font-weight: bold;
-}
-
-.swal-footer {
-    background-color: rgb(245, 248, 250);
-    margin-top: 32px;
-    border-top: 1px solid #E9EEF1;
-    padding: 0;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-}
-
-.swal-button-container {
-    width: 100%;
-    margin: 0;
-}
-
-.swal-button {
-    background-color: rgba(5, 68, 94, 0.90);
-    font-size: 1rem;
-    width: 100%;
-    height: 60px;
-    border-radius: 0;
-    font-weight: normal;
-    transition: color 0.3s ease-in;
-}
-
-.swal-button:hover {
-    background-color: var(--color-white-dirty) !important;
-    border: 1px solid var(--color-primary);
     color: var(--color-primary);
+    box-shadow: inset 0 0 0 1px var(--color-primary);
 }
+
+.fd-btn-cancel {
+    background-color: var(--color-red-pastel);
+    color: var(--color-white-dirty);
+    transition: all 0.2s ease-in-out;
+}
+
+.fd-btn-cancel:hover {
+    background-color: var(--color-white-dirty);
+    color: var(--color-red-pastel);
+    box-shadow: inset 0 0 0 1px var(--color-red-pastel);
+}
+
+.fd-border-radius-0 {
+    border-radius: 0;
+}
+

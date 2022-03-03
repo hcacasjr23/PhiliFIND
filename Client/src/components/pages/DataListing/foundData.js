@@ -3,7 +3,10 @@ import { Button } from 'react-bootstrap';
 import { Grid } from '@mui/material';
 import PostTemplate from '../../PostTemplate/foundPostTemplate';
 
-const Data = () => {
+function Data () {
+   
+
+    // Function for getting value based on ID
     const [item, setItem] = useState([]);
     useEffect(() => {
         fetch("http://localhost/philiFIND/getFoundData.php")
@@ -15,11 +18,7 @@ const Data = () => {
             )
     }, [])
 
-    // Function for getting value based on ID
-    const getValue = (specId) => {
-        console.log(specId)
 
-    }
     return (
         <div className='row'>
             <div className="title">

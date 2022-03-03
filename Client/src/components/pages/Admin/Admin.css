@@ -1,0 +1,46 @@
+.title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+}
+
+.data-table {
+    display:inline-table;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    overflow: scroll;
+    z-index: -1;
+}
+
+/* #status-container {
+    width: 500px;
+} */
+
+th {
+    background-color: black;
+    color: rgb(134, 121, 121);
+    width: auto;
+}
+
+h1 {
+    font-size: 26px;
+    font-weight:bold;
+}
+
+span {
+    font-style: bold;
+}
+
+#closeButton {
+    color: red;
+    cursor: pointer;
+}
+
+#void #delete {
+    display: flex;
+    width: auto;
+}

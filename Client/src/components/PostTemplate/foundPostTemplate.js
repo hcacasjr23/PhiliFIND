@@ -5,10 +5,6 @@ import {Container} from '@mui/material';
 
 function postTemplate(props, itemId, Data) {
 
-    const getSpecificId = (id) => {
-        console.log(id);
-    }
-
     return (
         <div>
             <div className="card-container">
