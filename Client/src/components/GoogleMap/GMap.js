@@ -32,9 +32,6 @@ import mapStyles from './mapStyles';
 
 // Geocode to acquire address
 import Geocode from 'react-geocode';
-import { add } from "date-fns";
-import { areDayPropsEqual } from "@mui/lab/PickersDay/PickersDay";
-import { alignProperty } from "@mui/material/styles/cssUtils";
 
 // Constants
 const apiKey = 'AIzaSyBL5x46MJOCjf0uohywjsG6p2zFNBEkaYI';
@@ -138,6 +135,8 @@ export default function GMap(props) {
                         getAddress={getAddress}
                         address={address}
                         setAddress={setAddress}
+                        setMarkers={setMarkers}
+                        setSelected={setSelected}
                     />
                 </div>
                 <div className="column-right">
@@ -176,9 +175,6 @@ export default function GMap(props) {
                             pixelOffset: new window.google.maps.Size(0, -30)
                         }}
                         position={{ lat: selected.lat, lng: selected.lng }}
-                        onCloseClick={() => {
-                            setSelected(null);
-                        }}
                     >
                         <div>
                             {address}
@@ -267,6 +263,13 @@ function Search(props) {
         setValue(props.address, false);
         clearSuggestions();
     }, [props.address])
+
+    useEffect(() => {
+        if(value === '') {
+            props.setMarkers([]);
+            props.setSelected(null);
+        }
+    }, [value])
 
     return (
         <Combobox onSelect={handleSelect} id='Combobox'>

@@ -3,7 +3,6 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-
 }
 
 .data-table {
@@ -43,4 +42,8 @@ span {
 #void #delete {
     display: flex;
     width: auto;
+}
+
+.admin-popup {
+    border-radius: 0 !important;
 }

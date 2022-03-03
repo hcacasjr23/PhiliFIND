@@ -23,8 +23,8 @@ import {
     TimePicker
 } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import swal from 'sweetalert';
 import Swal from 'sweetalert2'
+import { useHistory } from "react-router-dom";
 
 function FoundForm() {
 
@@ -73,6 +73,36 @@ function FoundForm() {
     const validemailFormat = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$')
     const validPhoneNo = new RegExp('^[09][0-9""]{10,}$')
 
+    // Custom Swal Popups
+    const ConfirmDialog = Swal.mixin({
+        customClass: {
+            confirmButton: 'fd-btn fd-btn-confirm',
+            cancelButton: 'fd-btn fd-btn-cancel',
+            popup: 'fd-popup',
+        },
+        buttonsStyling: false,
+        background: '#FAF8F8',
+        width: 500,
+    })
+
+    const OneButtonDialog = Swal.mixin({
+        buttonsStyling: false,
+        background: '#FAF8F8',
+        width: 500,
+    })
+
+    const getWindowLocationOnError = () => {
+        if (values.fd_item.trim() === '' ||
+            values.fd_brand.trim() === '' ||
+            values.fd_color.trim() === '') {
+            return 0;
+        } else {
+            return document.body.scrollHeight;
+        }
+    }
+
+    const history = useHistory();
+
     //Handles Submission
     const handleSubmit = (e) => {
 
@@ -107,7 +137,15 @@ function FoundForm() {
                 title: 'The ff. fields contain invalid value/s',
                 text: `${errorCompilation}`,
                 icon: 'error',
-                confirmButtonText: 'Return to Report Form',
+                confirmButtonText: 'Back to Report Form',
+                customClass: ({
+                    confirmButton: 'fd-btn fd-btn-back',
+                    popup: 'fd-popup',
+                })
+            }).then((result) => {
+                if (result.isConfirmed || result.dismiss) {
+                    window.scrollTo(0, getWindowLocationOnError());
+                }
             })
 
             //Prevents page from refreshin when submitted
@@ -122,16 +160,16 @@ function FoundForm() {
             setPContactError(false);
 
             //Sets error prop when invalid input
-            if (values.fd_item) {
+            if (values.fd_item.trim() === '') {
                 setItemError(true);
             }
-            if (values.fd_brand) {
+            if (values.fd_brand.trim() === '') {
                 setBrandError(true);
             }
-            if (values.fd_color) {
+            if (values.fd_color.trim() === '') {
                 setColorError(true);
             }
-            if (values.fd_name) {
+            if (values.fd_name.trim() === '') {
                 setNameError(true);
             }
             if (!validemailFormat.test(values.fd_email)) {
@@ -142,7 +180,6 @@ function FoundForm() {
             }
         }
         else {
-
             ConfirmDialog.fire({
                 title: 'Confirm Report Submission',
                 text: "Are you sure with the details filled above?",
@@ -154,21 +191,24 @@ function FoundForm() {
                 if (result.isConfirmed) {
                     sendPostRequest();
                     OneButtonDialog.fire({
-                        title: 'Report Has ',
-                        icon: 'successful',
-                        confirmButtonText: 'Return to Home',
-                    });
+                        title: 'Report Sent Successfully',
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        customClass: ({
+                            popup: 'fd-popup',
+                        }),
+                    })
+                    history.push('/home');
+                    window.scrollTo(0, 0);
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
-
+                    window.scrollTo(0, 0);
                 }
             })
-
-            //Reloads page upon submit
-            //window.location.reload();
         }
     }
 
-    const API_PATH = 'http://localhost/philiFIND/found.php';
+    const API_PATH = 'http://localhost/PhiliFIND/Client/src/api/found.php';
 
     //Posts Data to Database using Axios
     const sendPostRequest = () => {
@@ -188,28 +228,6 @@ function FoundForm() {
                 error: "this is an error"
             }));
     }
-
-    // Custom Swal Popups
-    const ConfirmDialog = Swal.mixin({
-        customClass: {
-            confirmButton: 'fd-btn fd-btn-confirm',
-            cancelButton: 'fd-btn fd-btn-cancel',
-            popup: 'fd-border-radius-0',
-        },
-        buttonsStyling: false,
-        background: '#FAF8F8',
-        width: 500,
-    })
-
-    const OneButtonDialog = Swal.mixin({
-        customClass: {
-            confirmButton: 'fd-btn-return',
-            popup: 'fd-border-radius-0',
-        },
-        buttonsStyling: false,
-        background: '#FAF8F8',
-        width: 500,
-    })
 
     //Sets value of image
     const uploadImage = async (e) => {
@@ -363,7 +381,8 @@ function FoundForm() {
                                                 defaultValue=""
                                                 label="Category"
                                                 onChange={(e) => setValues({ ...values, fd_category: e.target.value })}
-                                            >
+                                            >   
+                                                <MenuItem aria-label="None" value="" />
                                                 <MenuItem value={'Animal'}>Animal/Pet</MenuItem>
                                                 <MenuItem value={'Clothing'}>Clothing</MenuItem>
                                                 <MenuItem value={'Money'}>Money</MenuItem>

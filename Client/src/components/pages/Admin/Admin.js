@@ -33,6 +33,9 @@ function AdminPage() {
     position: 'top-end',
     showConfirmButton: false,
     timer: 2000,
+    customClass: ({
+      popup: 'admin-popup',
+    })
   })
 
   const Login = details => {
@@ -47,12 +50,14 @@ function AdminPage() {
       Toast.fire({
         icon: 'success',
         title: 'Signed In Successfully',
+        width: 300,
       })
     } else {
       //Failed Sign in Toast
       Toast.fire({
         icon: 'error',
         title: 'Incorrect Login Details',
+        width: 305,
       })
     }
     console.log('http://localhost/philiFIND/getFoundData.php')
