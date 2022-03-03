@@ -19,7 +19,6 @@ function Posts() {
           <Grid item={true} xs={6}>
             <LostData />
           </Grid>
-
         </Grid>
       </Container>
     </div>

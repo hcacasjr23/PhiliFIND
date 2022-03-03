@@ -209,11 +209,7 @@ function LostForm() {
         }
     }
 
-<<<<<<< HEAD
     const API_PATH = 'http://localhost/PhiliFIND/Client/src/api/lost.php';
-=======
-    const API_PATH = 'http://localhost/PhiliFIND/Client/src/api/found.php';
->>>>>>> 94fbd6126d9f72865496229cc51e0ddbf289dff7
 
     //Posts Data to Database using Axios
     const sendPostRequest = () => {

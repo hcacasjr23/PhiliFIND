@@ -7,7 +7,7 @@ import Footer from './components/Footer/Footer';
 import Home from './components/pages/Home/Home';
 import FoundForm from './components/pages/FoundForm/FoundForm';
 import LostForm from './components/pages/LostForm/LostForm';
-import Posts from './components/pages/Posts';
+import Posts from './components/pages/Posts/Posts';
 import Admin from './components/pages/Admin/Admin';
 import Login from './components/pages/LoginForm/LoginForm';
 import FoundViewPost from './components/pages/ViewPostComplete/FoundViewPost';
