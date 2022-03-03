@@ -13,6 +13,8 @@ function Posts() {
 
   const [searchValue, setSearchValue] = useState('');
 
+  // Filter for Search Function
+
   return (
     <div className='post-container'>
       <Container>
