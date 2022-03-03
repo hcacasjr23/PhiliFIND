@@ -55,7 +55,7 @@ function AdminPage() {
         title: 'Incorrect Login Details',
       })
     }
-    console.log('http://localhost/philiFIND/getFoundData.php')
+    console.log('http://localhost/PhiliFIND/Client/src/api/getFoundData.php')
   }
 
   const Logout = () => {
@@ -68,7 +68,7 @@ function AdminPage() {
   }
   const [foundItem, setFoundItem] = useState([])
   useEffect(() => {
-    fetch("http://localhost/philiFIND/getFoundData.php")
+    fetch("http://localhost/PhiliFIND/Client/src/api/getFoundData.php")
       .then(result => result.json())
       .then(
         (res) => {
@@ -85,23 +85,34 @@ function AdminPage() {
   })
 
 
-  const deleteData = (id) => {
+  const deleteData = async (id) => {
+    await fetch('http://localhost/PhiliFIND/Client/src/api/getFoundData.php/${id}', {
+      method: 'DELETE'
+    })
     console.log('delete', id)
-    setFoundItem(foundItem.filter((item) => item.id !== id))
-    setFoundItem(foundItem.filter((item) => item.fd_status = status.delete_status))
-  }
+    // setFoundItem(foundItem.filter((item) => item.id !== id))
+    if (setFoundItem(foundItem.filter((item) => item.id !== id))){
 
-  const updateData = (e) => {
-    const datas = {
-      statusUpdate: status.delete_status
+      setFoundItem(foundItem.filter((status) => status.fd_status[id] == 'deleted'))
     }
+    else {
+      setFoundItem(foundItem.filter((status) => status.fd_status == 'show'))
+    }
+
+  }
+
+  const changeStatus = (event) => {
+    console.log('status', event)
+    setFoundItem(foundItem.fd_status)
+
   }
 
 
 
-  const voidReport = (status) => {
+  const voidReport = (event) => {
 
-    console.log('status', status)
+    console.log('status', event)
+
     // axios.put('http://localhost/philiFIND/getFoundData.php', foundItem.fd_status = statuss)
   }
 
@@ -151,7 +162,7 @@ function AdminPage() {
                   <td>{item.fd_pcontact}</td>
                   <td>{item.fd_scontact}</td>
                   <td>
-                    <Button id="void" variant="contained" color="secondary" style={{backgroundColor:"#2986cc"}} onClick={() => voidReport(item.fd_status = status.delete_status)}>Void Report</Button>
+                    <Button id="void" variant="contained" color="secondary" style={{backgroundColor:"#2986cc"}} onClick={() => voidReport(item.fd_status = status.delete_status)}>Change Status</Button>
                     <Button id="delete"variant="contained" color="secondary" style={{backgroundColor:"#FF0000"}} onClick={() => deleteData(item.id)}>Delete</Button>
                   </td>
                 </tr>

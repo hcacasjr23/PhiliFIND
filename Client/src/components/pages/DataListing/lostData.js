@@ -5,7 +5,7 @@ import PostTemplateLost from '../../PostTemplate/lostPostTemplate';
 const Data = () => {
     const [item, setItem] = useState([]);
     useEffect(() => {
-        fetch("http://localhost/philiFIND/getLostData.php")
+        fetch("http://localhost/PhiliFIND/Client/src/api/getLostData.php")
             .then(result => result.json())
             .then(
                 (res) => {
