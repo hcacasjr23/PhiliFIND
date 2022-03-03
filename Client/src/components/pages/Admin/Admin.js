@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 // Import components
 import { Button } from '@mui/material';
-import { Admin, Resource, fetchUtils } from 'react-admin';
-import PostTemplate from '../ViewPostComplete/FoundViewPost'
 import Swal from 'sweetalert2';
+import { Axios } from 'axios';
 
 
 // Import Css
@@ -108,15 +107,30 @@ function AdminPage() {
 
   const changeStatus = (event) => {
     console.log('status', event)
-    setFoundItem(foundItem.fd_status)
+    setFoundItem(foundItem.fd_status = status.delete_status)
 
   }
-
 
 
   const voidReport = (event) => {
 
     console.log('status', event)
+
+    // Update to Database
+    // axios.put('http://localhost/PhiliFIND/Client/src/api/delete.php')
+
+    axios({
+      method: 'PUT',
+      url: 'http://localhost/PhiliFIND/Client/src/api/delete.php',
+      headers: {
+        'content-type': 'application/json'
+      },
+      data: foundItem.id
+    })
+    .then(result => {
+      console.log(result.data)
+    });
+
 
     // axios.put('http://localhost/philiFIND/getFoundData.php', foundItem.fd_status = statuss)
   }
