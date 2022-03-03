@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './LostForm.css';
 
 // Components Needed
@@ -10,12 +10,21 @@ import axios from 'axios'
 
 // Additional Dependencies for FoundForm
 import {
-    Container, Grid, Button, 
-    InputLabel, MenuItem, Select
+    Container,
+    Grid,
+    Button,
+    InputLabel,
+    MenuItem,
+    Select
 } from '@mui/material';
-import { DatePicker, LocalizationProvider, TimePicker } from '@mui/lab';
+import {
+    DatePicker,
+    LocalizationProvider,
+    TimePicker
+} from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2'
+import { useHistory } from "react-router-dom";
 
 function LostForm() {
 
@@ -34,8 +43,24 @@ function LostForm() {
         lt_time: new Date(),
         lt_category: '',
         lt_addinfo: '',
-        lt_image: ''
+        lt_image: null,
     })
+
+    // Address from Google Map Component
+    const [mapAddress, setMapAddress] = useState()
+
+    useEffect(() => {
+        setValues({ ...values, lt_place: mapAddress })
+    }, [mapAddress])
+
+    const [minDate, setMinDate] = useState()
+
+    // Set minimum date to 3 months prior to current
+    useEffect(() => {
+        let currentDate = new Date();
+        currentDate.setMonth(currentDate.getMonth() - 3);
+        setMinDate(currentDate);
+    }, [])
 
     //Default values for text field error prop
     const [itemError, setItemError] = useState(false)
@@ -48,6 +73,36 @@ function LostForm() {
     //Input Formatting
     const validemailFormat = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$')
     const validPhoneNo = new RegExp('^[09][0-9""]{10,}$')
+
+    // Custom Swal Popups
+    const ConfirmDialog = Swal.mixin({
+        customClass: {
+            confirmButton: 'lt-btn lt-btn-confirm',
+            cancelButton: 'lt-btn lt-btn-cancel',
+            popup: 'lt-popup',
+        },
+        buttonsStyling: false,
+        background: '#FAF8F8',
+        width: 500,
+    })
+
+    const OneButtonDialog = Swal.mixin({
+        buttonsStyling: false,
+        background: '#FAF8F8',
+        width: 500,
+    })
+
+    const getWindowLocationOnError = () => {
+        if (values.lt_item.trim() === '' ||
+            values.lt_brand.trim() === '' ||
+            values.lt_color.trim() === '') {
+            return 0;
+        } else {
+            return document.body.scrollHeight;
+        }
+    }
+
+    const history = useHistory();
 
     //Handles Submission
     const handleSubmit = (e) => {
@@ -78,11 +133,20 @@ function LostForm() {
 
         //Pop-up error for invalid inputs
         if (errorArray.length) {
-            swal({
+
+            OneButtonDialog.fire({
                 title: 'The ff. fields contain invalid value/s',
                 text: `${errorCompilation}`,
-                icon: 'warning',
-                button: 'Return to Form',
+                icon: 'error',
+                confirmButtonText: 'Back to Report Form',
+                customClass: ({
+                    confirmButton: 'lt-btn lt-btn-back',
+                    popup: 'lt-popup',
+                })
+            }).then((result) => {
+                if (result.isConfirmed || result.dismiss) {
+                    window.scrollTo(0, getWindowLocationOnError());
+                }
             })
 
             //Prevents page from refreshin when submitted
@@ -115,15 +179,41 @@ function LostForm() {
             if (!validPhoneNo.test(values.lt_pcontact)) {
                 setPContactError(true);
             }
-        } 
+        }
         else {
-            sendPostRequest();
-            //Reloads page upon submit
-            window.location.reload();
+            ConfirmDialog.fire({
+                title: 'Confirm Report Submission',
+                text: "Are you sure with the details filled above?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Submit Report',
+                cancelButtonText: 'No, Check Report',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    sendPostRequest();
+                    OneButtonDialog.fire({
+                        title: 'Report Sent Successfully',
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        customClass: ({
+                            popup: 'lt-popup',
+                        }),
+                    })
+                    history.push('/home');
+                    window.scrollTo(0, 0);
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    window.scrollTo(0, 0);
+                }
+            })
         }
     }
 
+<<<<<<< HEAD
     const API_PATH = 'http://localhost/PhiliFIND/Client/src/api/lost.php';
+=======
+    const API_PATH = 'http://localhost/PhiliFIND/Client/src/api/found.php';
+>>>>>>> 94fbd6126d9f72865496229cc51e0ddbf289dff7
 
     //Posts Data to Database using Axios
     const sendPostRequest = () => {
@@ -150,6 +240,10 @@ function LostForm() {
         const base64 = await convertBase64(file);
         setValues({ ...values, lt_image: base64 })
     };
+
+    const removeImage = async (e) => {
+        setValues({ ...values, lt_image: null });
+    }
 
     //Convert file object to base64
     const convertBase64 = (file) => {
@@ -201,15 +295,23 @@ function LostForm() {
                             <Grid item={true} xs={12} sm={6} md={3}>
                                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                                     <DatePicker
+                                        allowSameDateSelection
                                         disableFuture
-                                        openTo='year'
-                                        views={['year', 'month', 'day']}
-                                        label="Date Lost"
+                                        minDate={minDate}
+                                        openTo='month'
+                                        views={['month', 'day', 'year']}
+                                        label="Estimated Date Lost"
                                         value={values.lt_date}
-                                        onChange={(e) => {
-                                            setValues({ ...values, lt_date: e });
-                                        }}
-                                        renderInput={(params) => <StyledTextField {...params} helperText={null} fullWidth />}
+                                        onChange={(e) => { setValues({ ...values, lt_date: e }); }}
+                                        renderInput={(params) =>
+                                            <StyledTextField {...params}
+                                                fullWidth
+                                                onKeyDown={(e) => {
+                                                    e.preventDefault();
+                                                    return false;
+                                                }}
+                                            />
+                                        }
                                     />
                                 </LocalizationProvider>
                             </Grid>
@@ -219,10 +321,19 @@ function LostForm() {
                             <Grid item={true} xs={12} sm={6} md={3}>
                                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                                     <TimePicker
-                                        label="Time Lost"
+                                        label="Estimated Time Lost"
                                         value={values.lt_time}
-                                        onChange={(e) => { setValues({ ...values, lt_time: e }) }}
-                                        renderInput={(params) => <StyledTextField {...params} fullWidth />}
+                                        onChange={(e) => {
+                                            setValues({ ...values, lt_time: e })
+                                        }}
+                                        renderInput={(params) =>
+                                            <StyledTextField {...params}
+                                                fullWidth
+                                                onKeyDown={(e) => {
+                                                    e.preventDefault();
+                                                    return false;
+                                                }}
+                                            />}
                                     />
                                 </LocalizationProvider>
                             </Grid>
@@ -275,6 +386,7 @@ function LostForm() {
                                                 label="Category"
                                                 onChange={(event) => setValues({ ...values, lt_category: event.target.value })}
                                             >
+                                                <MenuItem aria-label="None" value="" />
                                                 <MenuItem value={'Animal'}>Animal/Pet</MenuItem>
                                                 <MenuItem value={'Clothing'}>Clothing</MenuItem>
                                                 <MenuItem value={'Money'}>Money</MenuItem>
@@ -298,7 +410,6 @@ function LostForm() {
                                             fullWidth
                                             multiline
                                             rows={3}
-                                            maxRows={4}
                                             onChange={(e) => setValues({ ...values, lt_addinfo: e.target.value })}
                                         />
                                     </Grid>
@@ -315,6 +426,9 @@ function LostForm() {
                                             component='label'
                                             id='uploadButton'
                                             sx={{ height: 30 }}
+                                            onClick={(e) => {
+                                                e.target.value = null;
+                                            }}
                                         >
                                             Upload Image
                                             <input
@@ -336,7 +450,9 @@ function LostForm() {
                                                 variant='contained'
                                                 id='removeButton'
                                                 sx={{ height: 30 }}
-                                                onClick={(e) => setValues({ ...values, lt_image: e.target.value })}
+                                                onClick={(e) => {
+                                                    removeImage(e);
+                                                }}
                                             >
                                                 Remove
                                             </Button>
@@ -362,9 +478,9 @@ function LostForm() {
 
                             {/* Google Map API */}
                             <Grid item={true} xs={12}>
-                                <div className="google-map-wrapper">
-                                    <Maps />
-                                </div>
+                                <Maps
+                                    setMapAddress={setMapAddress}
+                                />
                             </Grid>
                             {/* End of Google Map API */}
                         </Grid>
@@ -458,7 +574,7 @@ function LostForm() {
                                         xs: '100%',
                                         sm: 280,
                                     },
-                                    height: 55
+                                    height: 56
                                 }}>
                                 Post Lost Item Report
                             </Button>
