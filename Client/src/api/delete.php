@@ -8,15 +8,13 @@ header("Content-Type: application/json; charset=UTF-8");
 
 // Method for getting files
 $rest_json = file_get_contents("php://input");
-//Post Method
+
 // Connection
 $conn = mysqli_connect("localhost", "root", "", "philifind");
 
 $id = $_GET['id'];
-echo $id;
 
-
-$query = "UPDATE found_table SET fd_status = 'deleted' WHERE id = $id";
+$query = "UPDATE 'found_table' SET 'fd_status' = 'deleted' WHERE id = $id";
 
 $result = mysqli_query($conn, $query);
 
