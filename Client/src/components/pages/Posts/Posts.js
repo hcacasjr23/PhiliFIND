@@ -3,8 +3,8 @@ import React from 'react';
 import './Posts.css';
 import { Container, Grid } from '@mui/material'
 
-import FoundData from './DataListing/foundData';
-import LostData from './DataListing/lostData';
+import FoundData from '../DataListing/foundData';
+import LostData from '../DataListing/lostData';
 
 function Posts() {
 
