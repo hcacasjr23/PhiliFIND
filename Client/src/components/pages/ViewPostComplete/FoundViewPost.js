@@ -1,28 +1,27 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Import Components
-import {TextField} from '@mui/material';
+import { TextField } from '@mui/material';
 
 // Import CSS
 import './styles.css';
 import { Button } from 'react-bootstrap';
 
-function ViewPost ()  {
+function ViewPost() {
 
   const [item, setItem] = useState([]);
   useEffect(() => {
-      fetch("http://localhost/PhiliFIND/Client/src/api/getFoundData.php")
-          .then(result => result.json())
-          .then(
-              (res) => {
-                  item(res);
-              }
-          )
+    fetch("http://localhost/PhiliFIND/Client/src/api/getFoundData.php")
+      .then(result => result.json())
+      .then(
+        (res) => {
+          item(res);
+        }
+      )
   }, [])
-  
+
   return (
-      
-    <div>
+    <>
       ViewPost
       {item.map(item => (
         <div key={item.id} className='container'>
@@ -37,7 +36,7 @@ function ViewPost ()  {
           <Button>{item.fd_item}</Button>
         </div>
       ))}
-    </div>
+    </>
   )
 }
 

@@ -11,7 +11,6 @@ import './Admin.css'
 
 // Import Login Form
 import LoginForm from '../LoginForm/LoginForm';
-import DataList from '../../DataList/dataList';
 import { Dashboard } from '@mui/icons-material';
 import simpleRestProvider from 'ra-data-simple-rest';
 import axios from 'axios';

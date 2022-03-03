@@ -4,9 +4,6 @@ html {
 
 .home {
     height: 100%;
-    /* background-image: radial-gradient(var(--color-blue-pastel) 0.6000000000000001px, transparent 0.6000000000000001px), radial-gradient(var(--color-blue-pastel) 0.6000000000000001px, var(--color-white-dirty) 0.6000000000000001px);
-    background-size: 24px 24px;
-    background-position: 0 0, 12px 12px; */
 }
 
 .hero-section {

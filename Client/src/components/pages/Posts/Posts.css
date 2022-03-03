@@ -1,8 +1,16 @@
-/* Temporary Scrollbar for Layouting */
 html {
-    overflow-y: scroll;
+    scroll-behavior: smooth;
 }
 
 .post-container {
-    padding-top: 5%;
+    margin: 0;
+    padding: 4rem 0;
+    box-sizing: 0;
+    height: 100%;
+    width: 100%;
+    background-color: var(--color-white-dirty);
+}
+
+.search-bar {
+    padding-bottom: 3rem;
 }

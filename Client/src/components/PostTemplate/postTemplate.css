@@ -14,11 +14,9 @@
     
 }
 
-
 #view-button:hover, #alert-button:hover {
     text-shadow: 2px 2px 4px gray;
 }
-
 
 .buttonWrapper {
     display: flex;
@@ -37,3 +35,43 @@
     justify-content: flex-end;
     text-align: right;
 }
+
+/* General */
+
+.card-body {
+    background-color: var(--color-white-dirty);
+    padding: 1rem 2rem;
+}
+
+/* Lost Card */
+
+.lost-card {
+    box-sizing: border-box;
+    margin: 2rem 0;
+    padding: 0;
+    outline: 1px solid var(--color-red-pastel-light);
+    height: auto;
+}
+
+.lost-card .card-highlight {
+    height: 15px;
+    width: 100%;
+    background-color: var(--color-red-pastel-light);
+}
+
+/* Found Card */
+
+.found-card {
+    box-sizing: border-box;
+    margin: 2rem 0;
+    padding: 0;
+    outline: 1px solid var(--color-green-pastel);
+    height: auto;
+}
+
+.found-card .card-highlight {
+    height: 15px;
+    width: 100%;
+    background-color: var(--color-green-pastel);
+}
+

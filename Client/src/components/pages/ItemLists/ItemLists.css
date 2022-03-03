@@ -1,0 +1,16 @@
+.header {
+    padding: 0.5rem 0;
+    text-align: center;
+    font-size: 18pt;
+    margin-bottom: 2rem;
+}
+
+.lost {
+    background-color: var(--color-red-pastel-light);
+    color: var(--color-white-dirty);
+}
+
+.found {
+    background-color: var(--color-green-pastel);
+    color: var(--color-white-dirty);
+}
