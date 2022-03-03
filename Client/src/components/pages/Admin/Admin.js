@@ -105,21 +105,16 @@ function AdminPage() {
     const deleteData = async (id) => {
       console.log('delete', id)
 
+      //Not yet done - bandage solution for now
+      setFoundItem(foundItem.filter((item) => item.id !== id))
+      setLostItem(lostItem.filter((item) => item.id !== id))
+
       //Database update
       axios.request('http://localhost/PhiliFIND/Client/src/api/delete.php') 
         .then(response => {
           console.log(response.data);
         })
-    
-
-        // Not yet done - Controller for status
-      if (setFoundItem(foundItem.filter((item) => item.id !== id))){
-
-        setFoundItem(foundItem.filter((status) => status.fd_status == 'deleted'))
-      }
-      else {
-        setFoundItem(foundItem.filter((status) => status.fd_status == 'show'))
-      }
+  
       
     }
     
