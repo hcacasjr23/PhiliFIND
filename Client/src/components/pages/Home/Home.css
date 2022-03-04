@@ -4,6 +4,9 @@ html {
 
 .home {
     height: 100%;
+    background-image: url('/public/images/home-map-bg-img.png');
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .hero-section {
