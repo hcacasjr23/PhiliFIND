@@ -29,7 +29,6 @@ function FoundItemList() {
                     {item.map(item => (
                         <PostTemplate
                             key={item.id}
-                            itemId={item.id}
                             image={item.fd_image}
                             itemName={item.fd_item}
                             itemBrand={item.fd_brand}

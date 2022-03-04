@@ -40,7 +40,9 @@
 
 .card-body {
     background-color: var(--color-white-dirty);
-    padding: 1rem 2rem;
+    padding: 0 2rem;
+    flex: 1;
+    align-items: center;
 }
 
 /* Lost Card */
@@ -50,13 +52,38 @@
     margin: 2rem 0;
     padding: 0;
     outline: 1px solid var(--color-red-pastel-light);
-    height: auto;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+}
+
+.lost-card > * {
+    transition: all 0.3s ease-in-out;
+}
+
+.lost-card:hover > .card-body {
+    overflow: hidden;
+}
+
+.lost-card:hover > .card-highlight {
+    min-width: 30px;
+}
+
+.lost-card:hover > .card-image {
+    max-width: 200px;
 }
 
 .lost-card .card-highlight {
-    height: 15px;
-    width: 100%;
+    height: auto;
+    min-width: 15px;
     background-color: var(--color-red-pastel-light);
+}
+
+.lost-card .label {
+    display: inline-block;
+    min-width: 85px;
+    font-weight: bold;
+    color: var(--color-red-pastel-light);
 }
 
 /* Found Card */
@@ -67,11 +94,22 @@
     padding: 0;
     outline: 1px solid var(--color-green-pastel);
     height: auto;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+}
+
+.found-card > * {
+    transition: all 0.3s ease-in-out;
+}
+
+.found-card:hover > .card-highlight {
+    flex: 0.08;
 }
 
 .found-card .card-highlight {
-    height: 15px;
-    width: 100%;
+    height: auto;
+    min-width: 15px;
     background-color: var(--color-green-pastel);
 }
 

@@ -41,14 +41,13 @@ if ($conn)
     $item = trim($_POST['fd_item']);
     $brand = trim($_POST['fd_brand']);
     $color = trim($_POST['fd_color']);
-    $place = trim($_POST['fd_place']);
     $name = trim($_POST['fd_name']);
     $email = trim($_POST['fd_email']);
     $pContact = trim($_POST['fd_pcontact']);
     
     
     // Validate empty values
-    if (!empty($item) AND !empty($brand) AND !empty($color) AND !empty($place)
+    if (!empty($item) AND !empty($brand) AND !empty($color)
     AND !empty($name) AND !empty($email) AND !empty($pContact)){
 
         $result = @mysqli_query($conn, $query);
