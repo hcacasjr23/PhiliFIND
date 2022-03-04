@@ -26,7 +26,7 @@ function FoundItemList(props) {
                 {/* Container for item listing */}
                 <Grid item={true} xs={12}>
                     {/* Call and list data from database 1 by 1 */}
-                    {item.filter((val) => {
+                    {item.slice(0).reverse().filter((val) => {
                         if (props.searchTerm.trim() === '') {
                             return val
                         } else if (val.fd_item.toLowerCase().includes(props.searchTerm.toLowerCase())) {
