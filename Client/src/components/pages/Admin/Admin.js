@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-
+import React, { useEffect, useState} from 'react';
+import { useParams, useHistory, generatePath } from 'react-router-dom';
 // Import components
 import { Button } from '@mui/material';
 import Swal from 'sweetalert2';
@@ -70,7 +70,6 @@ function AdminPage() {
     console.log("")
   }
 
-
   const [foundItem, setFoundItem] = useState([])
   useEffect(() => {
     fetch("http://localhost/PhiliFIND/Client/src/api/getFoundData.php")
@@ -100,38 +99,43 @@ function AdminPage() {
       reported: false,
       delete_status: "deleted"
     })
+
+    async function makeRequest (event) {
+      
+      let d = new FormData()
+      d.append('id', event)
+      let res = await axios.post('http://localhost/PhiliFIND/Client/src/api/delete.php', d)
+      let data = res.data
+      console.log(data) 
+      console.log(res.status)
+    }
     
-    
-    const deleteData = async (id) => {
+    const deleteData =(id) => {
       console.log('delete', id)
 
       //Not yet done - bandage solution for now
       setFoundItem(foundItem.filter((item) => item.id !== id))
-      setLostItem(lostItem.filter((item) => item.id !== id))
-
-      //Database update
-      axios.request('http://localhost/PhiliFIND/Client/src/api/delete.php') 
-        .then(response => {
-          console.log(response.data);
-        })
-  
+      makeRequest(id)
       
     }
     
-    const changeStatus = (event) => {
-  
-      
-    }
     
     const voidReport = (event) => {
       
       console.log('status', event)
 
-      setLostItem(lostItem.filter((lost_status) => lost_status.event = 'deleted'))
-      setFoundItem(foundItem.filter((found_status) => found_status.event = 'deleted'))
+      if (event !== status.delete_status)
+      {
+        console.log("this is a status")
+        setFoundItem(foundItem.filter((item) => item.fd_status = status.delete_status))
 
+      }
+      else {
+        console.log("this is an error")
+        setFoundItem(foundItem.filter((item) => item.fd_status = 'show'))
+      }
       
-      // controller for status changinng
+
     }
     
     return (
@@ -181,7 +185,7 @@ function AdminPage() {
                   <td>{item.fd_scontact}</td>
                   <td>{item.fd_status}</td>
                   <td>
-                    <Button id="void" variant="contained" color="secondary" style={{backgroundColor:"#2986cc"}} onClick={() => voidReport(item.fd_status = status.delete_status)}>Change Status</Button>
+                    <Button id="void" variant="contained" color="secondary" style={{backgroundColor:"#2986cc"}} onClick={() => voidReport(item.fd_status)}>Change Status</Button>
                     <Button id="delete"variant="contained" color="secondary" style={{backgroundColor:"#FF0000"}} onClick={() => deleteData(item.id)}>Delete</Button>
                   </td>
                 </tr>
@@ -228,7 +232,8 @@ function AdminPage() {
                       <td>{item.lt_scontact}</td>
                       <td>{item.lt_status}</td>
                       <td>
-                        <Button id="void" variant="contained" color="secondary" style={{ backgroundColor: "#2986cc" }} onClick={() => voidReport(item.lt_status = status.delete_status)}>Change Status</Button>
+              
+                        <Button id="void" variant="contained" color="secondary" style={{ backgroundColor: "#2986cc" }} onClick={() => voidReport(item.lt_status)}>Change Status</Button>
                         <Button id="delete" variant="contained" color="secondary" style={{ backgroundColor: "#FF0000" }} onClick={() => deleteData(item.id)}>Delete</Button>
                       </td>
                     </tr>
