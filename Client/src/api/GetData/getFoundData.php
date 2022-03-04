@@ -10,11 +10,7 @@ if ($connect){
 
     
 
-<<<<<<< HEAD:Client/src/api/GetData/getFoundData.php
     $sql = "SELECT * FROM `found_table` WHERE fd_status = 'show' ORDER BY `id` ASC";
-=======
-    $sql = "SELECT * FROM `found_table` ORDER BY `id` ASC" ;
->>>>>>> 7dc2f9f84278579f476725f58c7fe5bfa00706d2:Client/src/api/getFoundData.php
     $result = @mysqli_query($connect, $sql);
     $json_array = array();
     

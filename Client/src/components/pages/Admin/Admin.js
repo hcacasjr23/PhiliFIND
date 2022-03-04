@@ -74,6 +74,7 @@ function AdminPage() {
     return value;
   }
 
+  // Getting Data
   const [foundItem, setFoundItem] = useState([])
   useEffect(() => {
     fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getFoundData.php")
@@ -84,7 +85,7 @@ function AdminPage() {
         console.log(res)
       }
       )
-    }, [])
+    }, [2])
 
     const [lostItem, setLostItem] = useState([])
     useEffect(() => {
@@ -98,7 +99,7 @@ function AdminPage() {
         )
       }, [])
 
-
+      // Getting Deleted Data
     const [foundDeletedData, setFoundDeletedData] = useState([])
     useEffect(() => {
       fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getFoundDeletedData.php")
@@ -123,14 +124,8 @@ function AdminPage() {
         )
     }, [])
 
-      
-    
-    const [status, setStatus] = useState ({
-      retrieve: false,
-      reported: false,
-      delete_status: "deleted"
-    })
 
+    // Request Deletion/Hide of Posts
     async function foundDeleteRequest (event) {
     
       let fd = new FormData()
@@ -150,6 +145,7 @@ function AdminPage() {
       console.log(res.status)
     }
     
+    // Constant Function for manipulating show => delete
     const foundDeleteData =(id) => {
       console.log('delete', id)
       setFoundItem(foundItem.filter((fItem) => fItem.id !== id))
@@ -163,26 +159,48 @@ function AdminPage() {
       lostDeleteRequest(id)
       
     }
-    
-    
-    const voidReport = (event) => {
-      
-      console.log('status', event)
 
+     // Constant Function for manipulating deleted => show
 
+     async function foundRestoreRequest (event) {
+    
+      let foundID = new FormData()
+      foundID.append('id', event)
+      let res = await axios.post('http://localhost/PhiliFIND/Client/src/api/RestoreData/foundRestore.php', foundID)
+      let data = res.data
+      console.log(data) 
+      console.log(res.status)
     }
+    async function lostRestoreRequest (event) {
+    
+      let lostID = new FormData()
+      lostID.append('id', event)
+      let res = await axios.post('http://localhost/PhiliFIND/Client/src/api/RestoreData/lostRestore.php', lostID)
+      let data = res.data
+      console.log(data) 
+      console.log(res.status)
+    }
+    const foundRestoreData =(id) => {
+      console.log('restore', id)
+      // setFoundItem(foundItem.filter((frData) => frData.id !== id))
+      foundRestoreRequest(id)
+      
+    }
+
+    const lostRestoreData =(id) => {
+      console.log('restore', id)
+      setLostItem(lostItem.filter((lrData) => lrData.id !== id))
+      lostRestoreRequest(id)
+      
+    }
+
     
     return (
       <div>
-      {/* if Logged in this will show */}
+                {/* if Logged in this will show */}
+
       {(user.userName != "") ? (
         <div className="welcome-container">
-          <h2>Welcome, <span>{user.userName}</span></h2>
-          <Button variant="contained" color="error" onClick={Logout}>Logout</Button>
-          <div className="title-container my-4 text-uppercase">
-            <h1>Welcome to Admin Page, <span>{user.userName}</span></h1>
-          </div>
-
           <h1>Found Data Table</h1>
           {/* Table for Found*/}
           <table className='data-table'>
@@ -317,7 +335,7 @@ function AdminPage() {
                       <td>{lost.lt_scontact}</td>
                       <td>{lost.lt_status}</td>
                       <td>
-                        <Button id="restore" variant="contained" color="secondary" style={{ backgroundColor: "#98fb98" }} onClick={() => lostDeleteData(lost.id)}>Restore</Button>
+                        <Button id="restore" variant="contained" color="secondary" style={{ backgroundColor: "#98fb98" }} onClick={() => lostRestoreData(lost.id)}>Restore</Button>
                       </td>
                     </tr>
                   ))}
@@ -360,7 +378,7 @@ function AdminPage() {
                       <td>{found.fd_scontact}</td>
                       <td>{found.fd_status}</td>
                       <td>
-                        <Button id="restore" variant="contained" color="secondary" style={{ backgroundColor: "#98fb98" }} onClick={() => lostDeleteData(found.id)}>Restore</Button>
+                        <Button id="restore" variant="contained" color="secondary" style={{ backgroundColor: "#98fb98" }} onClick={() => foundRestoreData(found.id)}>Restore</Button>
                       </td>
                     </tr>
                   ))}
@@ -370,10 +388,12 @@ function AdminPage() {
               
           </div>
 
+          <Button variant="contained" color="error" className='logout-button' onClick={Logout}>Logout</Button>
+
           <div className='side-navbar-placeholder'></div>
         </div>
 
-        // If not yet logged in, auto redirected to login form
+                      // If not yet logged in, auto redirected to login form
       ) : (
         <LoginForm Login={Login} />
 
