@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 import Navbar from './components/Navbar/Navbar';
@@ -11,6 +11,7 @@ import Posts from './components/pages/Posts/Posts';
 import Admin from './components/pages/Admin/Admin';
 import Login from './components/pages/LoginForm/LoginForm';
 import FoundViewPost from './components/pages/ViewPostComplete/FoundViewPost';
+import LostViewPost from './components/pages/ViewPostComplete/LostViewPost';
 
 //Dependencies for React Router Dom v5.2.1
 import {
@@ -42,6 +43,7 @@ function App() {
                 <Route exact path='/lost' component={LostForm} />
                 <Route exact path='/post' component={Posts} />
                 <Route exact path='/foundviewpost' component={FoundViewPost} />
+                <Route exact path='/lostviewpost' component={LostViewPost} />
               </div>
               <Footer />
             </div>

@@ -71,7 +71,7 @@ function FoundForm() {
 
     //Input Formatting
     const validemailFormat = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$')
-    const validPhoneNo = new RegExp('^[09][0-9""]{10,}$')
+    const validPhoneNo = new RegExp('^[09][0-9""]{10}$')
 
     // Custom Swal Popups
     const ConfirmDialog = Swal.mixin({

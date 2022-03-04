@@ -11,7 +11,8 @@ import {
   Grid,
   InputLabel,
   MenuItem,
-  Select
+  Select,
+  Button
 } from '@mui/material';
 import {
   DatePicker,
@@ -19,11 +20,13 @@ import {
   TimePicker
 } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function FoundViewPost() {
 
   const location = useLocation();
+
   const {
     itemImage,
     itemName,
@@ -33,7 +36,11 @@ function FoundViewPost() {
     itemLocation,
     itemDate,
     itemTime,
-    itemInfo
+    itemInfo,
+    contactName,
+    contactEmail,
+    contactPrimary,
+    contactSecondary,
   } = location.state;
 
   //Default value for variables
@@ -41,11 +48,11 @@ function FoundViewPost() {
     fd_item: itemName,
     fd_brand: itemBrand,
     fd_place: itemLocation,
-    fd_name: '',
+    fd_name: contactName,
     fd_color: itemColor,
-    fd_email: '',
-    fd_pcontact: '',
-    fd_scontact: '',
+    fd_email: contactEmail,
+    fd_pcontact: contactPrimary,
+    fd_scontact: contactSecondary,
     fd_date: itemDate,
     fd_time: itemTime,
     fd_category: itemCategory,
@@ -53,8 +60,12 @@ function FoundViewPost() {
     fd_image: itemImage,
   })
 
-  // Address from Google Map Component
-  const [mapAddress, setMapAddress] = useState()
+  // Adjust Date to GMT+8
+  useEffect(() => {
+    const newDate = new Date('2018-8-3 ' + itemTime);
+    const adjustedDate = newDate.setTime(newDate.getTime() + (8 * 60 * 60 * 1000));
+    setValues({ ...values, fd_time: adjustedDate });
+  }, [])
 
   return (
 
@@ -65,6 +76,13 @@ function FoundViewPost() {
         <div className="wrapper">
 
           <Container>
+
+            <Link
+              className='breadcrumb'
+              to='/post'
+            >
+              <ArrowBackIcon sx={{ transform: 'scale(0.8)' }} />Back to View Item Posts
+            </Link>
 
             <div className="section-header"><div className='section-header-wrapper'>Found Item Information</div></div><br />
 
@@ -91,6 +109,7 @@ function FoundViewPost() {
                     views={['month', 'day', 'year']}
                     label="Estimated Date Found"
                     value={values.fd_date}
+                    onChange={() => { }}
                     readOnly
                     renderInput={(params) =>
                       <StyledTextField {...params}
@@ -113,6 +132,7 @@ function FoundViewPost() {
                     label="Estimated Time Found"
                     value={values.fd_time}
                     readOnly
+                    onChange={() => { }}
                     renderInput={(params) =>
                       <StyledTextField {...params}
                         fullWidth
@@ -209,6 +229,21 @@ function FoundViewPost() {
                     <div className='image-container'>
                       {/* Needs to convert base64 to javascript file object*/}
                       <img alt="not found" width={'100%'} src={values.fd_image} />
+                    </div>
+                  )}
+
+                  {(!values.fd_image) && (
+                    <div
+                      style={{
+                        backgroundColor: 'var(--color-gray-light)',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '9.4rem',
+                        width: 'auto',
+                      }}
+                    >
+                      No Image
                     </div>
                   )}
                 </div>
@@ -312,7 +347,23 @@ function FoundViewPost() {
               </Grid>
               {/* End of Secondary Contact Field */}
             </Grid>
+
+            <br />
+            <div className='button-wrapper'>
+              <Button
+                id="postButton"
+                sx={{
+                  width: {
+                    xs: '100%',
+                    sm: 280,
+                  },
+                  height: 56
+                }}>
+                Contact Keeper
+              </Button>
+            </div>
             <br /><br />
+
           </Container>
         </div>
       </div>

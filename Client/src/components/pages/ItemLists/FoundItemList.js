@@ -44,11 +44,14 @@ function FoundItemList(props) {
                             itemDate={item.fd_date}
                             itemTime={item.fd_time}
                             itemInfo={item.fd_addinfo}
+                            contactName={item.fd_name}
+                            contactEmail={item.fd_email}
+                            contactPrimary={item.fd_pcontact}
+                            contactSecondary={item.fd_scontact}
                         />
                     ))}
                 </Grid>
             </div>
-
         </>
     );
 }

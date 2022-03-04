@@ -143,6 +143,14 @@ export default function GMapView(props) {
                         setSelected={setSelected}
                     />
                 </div>
+                <div className="column-right">
+                    <Locate
+                        panTo={panTo}
+                        moveMarker={moveMarker}
+                        getAddress={getAddress}
+                        address={address}
+                    />
+                </div>
             </div>
 
             <GoogleMap
@@ -151,7 +159,6 @@ export default function GMapView(props) {
                 zoom={12}
                 center={center}
                 options={options}
-                onClick={onMarkerMove}
                 onLoad={onMapLoad}
                 clickableIcons={false} // Prevents Pre-placed Icons from being Clickable
             >
@@ -180,6 +187,57 @@ export default function GMapView(props) {
                 ) : null}
             </GoogleMap>
         </div >
+    );
+}
+
+function Locate(props) {
+    const {
+        ready,
+        value,
+        suggestions: { status, data },
+        setValue,
+        clearSuggestions,
+    } = usePlacesAutocomplete({
+        requestOptions: {
+            location: { lat: () => props.markers.lat, lng: () => props.markers.lng },
+            radius: 100 * 1000,
+        },
+    });
+
+
+    // Retrieves Suggestions from Geocode
+    const handleSelect = async (address) => {
+        setValue(address, false);
+        clearSuggestions();
+
+        try {
+            const results = await getGeocode({ address });
+            const { lat, lng } = await getLatLng(results[0]);
+            props.panTo({ lat, lng });
+            props.moveMarker({ lat, lng });
+            props.getAddress(lat, lng);
+        } catch (error) {
+            console.log("😱 Error: ", error);
+        }
+    };
+
+    return (
+        <Button
+            id="viewLocate"
+            onClick={(e) => {
+                e.preventDefault();
+                handleSelect(props.address);
+            }}
+            sx={{
+                width: {
+                    xs: '100%',
+                    sm: 180,
+                },
+                height: 56
+            }}
+        >
+            Back to Found Location
+        </Button>
     );
 }
 

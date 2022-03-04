@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Card, CardContent, CardMedia, Typography, CardActions, Button, fabClasses } from '@mui/material'
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 
@@ -30,10 +30,21 @@ function FoundPostTemplate(props) {
         }),
         width: 335,
         icon: 'success',
-        iconColor: 'var(--color-red-pastel-light)',
+        backgroundColor: 'var(--color-white-dirty)',
     })
 
-    const history = useHistory();
+    const WarningToast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        customClass: ({
+            popup: 'report-popup',
+        }),
+        width: 370,
+        icon: 'warning',
+        backgroundColor: 'var(--color-white-dirty)',
+    })
 
     const date = moment(props.itemDate).format('MMM D, YYYY');
     const [time, setTime] = useState(props.itemTime.toLocaleString());
@@ -57,6 +68,14 @@ function FoundPostTemplate(props) {
         setReport(true);
     }
 
+    const handleWarning = (e) => {
+        WarningToast.fire({
+            title: 'You already have sent a report'
+        });
+        e.stopPropagation();
+        e.preventDefault();
+    }
+
     return (
         <>
             <Link
@@ -72,10 +91,17 @@ function FoundPostTemplate(props) {
                         itemDate: props.itemDate,
                         itemTime: props.itemTime,
                         itemInfo: props.itemInfo,
+                        contactName: props.contactName,
+                        contactEmail: props.contactEmail,
+                        contactPrimary: props.contactPrimary,
+                        contactSecondary: props.contactSecondary,
                     }
                 }}
                 style={{
                     textDecoration: 'none',
+                }}
+                onClick={() => {
+                    window.scrollTo(0, 0);
                 }}
             >
                 <Card
@@ -95,7 +121,6 @@ function FoundPostTemplate(props) {
                                 height: 'auto',
                                 maxWidth: '180px',
                                 backgroundColor: 'var(--color-white-dirty)',
-
                             }}
                         />)
                     }
@@ -189,7 +214,7 @@ function FoundPostTemplate(props) {
                                 justifyContent: 'flex-end',
                             }}
                         >
-                            <Button
+                            {(!report) && (<Button
                                 size="small"
                                 onClick={handleReport}
                                 sx={{
@@ -209,6 +234,29 @@ function FoundPostTemplate(props) {
                             >
                                 Report
                             </Button>
+                            )}
+                            {report && (<Button
+                                size="small"
+                                onClick={handleWarning}
+                                sx={{
+                                    textTransform: 'none',
+                                    fontSize: '10pt',
+                                    margin: 0,
+                                    marginTop: '1rem',
+                                    backgroundColor: 'var(--color-gray)',
+                                    borderRadius: 0,
+                                    color: 'var(--color-white-dirty)',
+                                    transition: 'all 0.2s ease-in-out',
+                                    '&:hover': {
+                                        color: 'var(--color-white-dirty)',
+                                        backgroundColor: 'var(--color-gray)',
+                                    }
+                                }}
+                                disableRipple
+                            >
+                                Report
+                            </Button>
+                            )}
                         </div>
                     </CardContent>
                 </Card>

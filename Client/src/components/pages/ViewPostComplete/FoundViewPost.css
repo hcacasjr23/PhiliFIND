@@ -15,9 +15,27 @@ body {
     margin: 3rem 0;
 }
 
+.found-form .wrapper:first-of-type {
+    margin-top: 1rem;
+}
+
 .found-form .middle {
     margin-top: 5rem;
     margin-bottom: 5.5rem;
+}
+
+.found-form .breadcrumb {
+    text-decoration: none;
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    background-color: var(--color-white-dirty);
+    width: fit-content;
+    transition: all 0.3s ease-in-out;
+}
+
+.found-form .breadcrumb:hover {
+    background-color: var(--color-blue-pastel);
 }
 
 .found-form .section-header  {
@@ -25,6 +43,7 @@ body {
     font-weight: 100;
     font-size: 20pt;
     width: 100%;
+    margin-top: 2rem;
 }
 
 .found-form .section-header-wrapper {
