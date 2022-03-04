@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Card, CardContent, CardMedia, Typography, Grid } from '@mui/material'
 import { useHistory } from 'react-router-dom';
@@ -22,7 +22,13 @@ function LostPostTemplate(props) {
     const history = useHistory();
 
     const date = moment(props.itemDate).format('MMM D, YYYY');
-    const time = moment(`January 19, 1975 ${props.itemTime}`).format('h:mm a')
+
+    const [time, setTime] = useState('');
+
+    useEffect(() => {
+        const d = new Date(props.itemTime);
+        setTime(d.toLocaleTimeString());
+    }, [])
 
     const [image, setImage] = useState(props.itemImage);
 
@@ -39,7 +45,7 @@ function LostPostTemplate(props) {
                         id='image-container'
                         className='card-image'
                         component='img'
-                        onError={() => {setImage('')}}
+                        onError={() => { setImage('') }}
                         image={image}
                         alt={props.itemName}
                         sx={{
@@ -47,7 +53,7 @@ function LostPostTemplate(props) {
                             height: 'auto',
                             maxWidth: '180px',
                             backgroundColor: 'var(--color-white-dirty)',
-                            
+
                         }}
                     />)
                 }
@@ -118,7 +124,7 @@ function LostPostTemplate(props) {
                         </Typography>
                     )}
                 </CardContent>
-                
+
             </Card>
         </>
     );
