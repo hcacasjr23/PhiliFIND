@@ -75,54 +75,73 @@ function AdminPage() {
   }
 
   // Getting Data
-  const [foundItem, setFoundItem] = useState([])
-  useEffect(() => {
-    fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getFoundData.php")
-    .then(result => result.json())
-    .then(
+
+  const [completeData, setCompleteData] = useState([])
+  useEffect(()=> {
+    const getFound = fetch('http://localhost/PhiliFIND/Client/src/api/GetData/getFoundData.php')
+    const getLost = fetch ('http://localhost/PhiliFIND/Client/src/api/GetData/getLostData.php')
+    const getDeletedFound =  fetch('http://localhost/PhiliFIND/Client/src/api/GetData/getFoundDeletedData.php')
+    const getDeletedLost = fetch('http://localhost/PhiliFIND/Client/src/api/GetData/getLostDeletedData.php')
+    .then (result => result.json())
+    .then (
       (res) => {
-        setFoundItem(res);
-        console.log(res)
+        completeData(res)
+        console.log(res);
       }
-      )
-    }, [2])
+    )
+  })
+
+
+
+  const [foundItem, setFoundItem] = useState([])
+  // useEffect(() => {
+  //   fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getFoundData.php")
+  //   .then(result => result.json())
+  //   .then(
+  //     (res) => {
+  //       setFoundItem(res);
+  //       console.log(res)
+  //     }
+  //     )
+  //   }, [])
 
     const [lostItem, setLostItem] = useState([])
-    useEffect(() => {
-      fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getLostData.php")
-      .then(result => result.json())
-      .then(
-        (res) => {
-          setLostItem(res);
-          console.log(res)
-        }
-        )
-      }, [])
+
+    // useEffect(() => {
+    //   fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getLostData.php")
+    //   .then(result => result.json())
+    //   .then(
+    //     (res) => {
+    //       setLostItem(res);
+    //       console.log(res)
+    //     }
+    //     )
+    //   }, [])
 
       // Getting Deleted Data
     const [foundDeletedData, setFoundDeletedData] = useState([])
-    useEffect(() => {
-      fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getFoundDeletedData.php")
-        .then(result => result.json())
-        .then(
-          (res) => {
-            setFoundDeletedData(res);
-            console.log(res)
-          }
-        )
-    }, [])
+    // useEffect(() => {
+    //   fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getFoundDeletedData.php")
+    //     .then(result => result.json())
+    //     .then(
+    //       (res) => {
+    //         setFoundDeletedData(res);
+    //         console.log(res)
+    //       }
+    //     )
+    // }, [])
 
     const [lostDeletedData, setLostDeletedData] = useState([])
-    useEffect(() => {
-      fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getLostDeletedData.php")
-        .then(result => result.json())
-        .then(
-          (res) => {
-            setLostDeletedData(res);
-            console.log(res)
-          }
-        )
-    }, [])
+    // useEffect(() => {
+    //   fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getLostDeletedData.php")
+    //     .then(result => result.json())
+    //     .then(
+    //       (res) => {
+    //         setLostDeletedData(res);
+    //         console.log(res)
+    //       }
+    //     )
+    // }, [])
 
 
     // Request Deletion/Hide of Posts
