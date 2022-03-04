@@ -6,7 +6,7 @@ const LostItemList = () => {
     const [item, setItem] = useState([]);
     
     useEffect(() => {
-        fetch("http://localhost/PhiliFIND/Client/src/api/getLostData.php")
+        fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getLostData.php")
             .then(result => result.json())
             .then(
                 (res) => {

@@ -8,6 +8,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 // Method for getting files
 $rest_json = file_get_contents("php://input");
+
 //Post Method
 $_POST = json_decode($rest_json, true);
 // Connection

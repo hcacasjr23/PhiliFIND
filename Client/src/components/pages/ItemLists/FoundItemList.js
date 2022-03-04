@@ -10,7 +10,7 @@ function FoundItemList() {
     // Function for getting value based on ID
     const [item, setItem] = useState([]);
     useEffect(() => {
-        fetch("http://localhost/PhiliFIND/Client/src/api/getFoundData.php")
+        fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getFoundData.php")
             .then(result => result.json())
             .then(
                 (res) => {

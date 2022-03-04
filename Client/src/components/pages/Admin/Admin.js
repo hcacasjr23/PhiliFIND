@@ -1,7 +1,7 @@
 import React, { useEffect, useState} from 'react';
 import { useParams, useHistory, generatePath } from 'react-router-dom';
 // Import components
-import { Button } from '@mui/material';
+import { Button, responsiveFontSizes } from '@mui/material';
 import Swal from 'sweetalert2';
 import { Axios } from 'axios';
 
@@ -58,7 +58,7 @@ function AdminPage() {
         width: 305,
       })
     }
-    console.log('http://localhost/PhiliFIND/Client/src/api/getFoundData.php')
+    console.log('http://localhost/PhiliFIND/Client/src/api/GetData/getFoundData.php')
   }
 
   const Logout = () => {
@@ -70,9 +70,13 @@ function AdminPage() {
     console.log("")
   }
 
+  function returnValue(value) {
+    return value;
+  }
+
   const [foundItem, setFoundItem] = useState([])
   useEffect(() => {
-    fetch("http://localhost/PhiliFIND/Client/src/api/getFoundData.php")
+    fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getFoundData.php")
     .then(result => result.json())
     .then(
       (res) => {
@@ -84,7 +88,7 @@ function AdminPage() {
 
     const [lostItem, setLostItem] = useState([])
     useEffect(() => {
-      fetch("http://localhost/PhiliFIND/Client/src/api/getLostData.php")
+      fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getLostData.php")
       .then(result => result.json())
       .then(
         (res) => {
@@ -93,6 +97,33 @@ function AdminPage() {
         }
         )
       }, [])
+
+
+    const [foundDeletedData, setFoundDeletedData] = useState([])
+    useEffect(() => {
+      fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getFoundDeletedData.php")
+        .then(result => result.json())
+        .then(
+          (res) => {
+            setFoundDeletedData(res);
+            console.log(res)
+          }
+        )
+    }, [])
+
+    const [lostDeletedData, setLostDeletedData] = useState([])
+    useEffect(() => {
+      fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getLostDeletedData.php")
+        .then(result => result.json())
+        .then(
+          (res) => {
+            setLostDeletedData(res);
+            console.log(res)
+          }
+        )
+    }, [])
+
+      
     
     const [status, setStatus] = useState ({
       retrieve: false,
@@ -100,22 +131,36 @@ function AdminPage() {
       delete_status: "deleted"
     })
 
-    async function makeRequest (event) {
-      
-      let d = new FormData()
-      d.append('id', event)
-      let res = await axios.post('http://localhost/PhiliFIND/Client/src/api/delete.php', d)
+    async function foundDeleteRequest (event) {
+    
+      let fd = new FormData()
+      fd.append('id', event)
+      let res = await axios.post('http://localhost/PhiliFIND/Client/src/api/DeleteData/foundDelete.php', fd)
+      let data = res.data
+      console.log(data) 
+      console.log(res.status)
+    }
+    async function lostDeleteRequest (event) {
+    
+      let lt = new FormData()
+      lt.append('id', event)
+      let res = await axios.post('http://localhost/PhiliFIND/Client/src/api/DeleteData/lostDelete.php', lt)
       let data = res.data
       console.log(data) 
       console.log(res.status)
     }
     
-    const deleteData =(id) => {
+    const foundDeleteData =(id) => {
       console.log('delete', id)
+      setFoundItem(foundItem.filter((fItem) => fItem.id !== id))
+      foundDeleteRequest(id)
+      
+    }
 
-      //Not yet done - bandage solution for now
-      setFoundItem(foundItem.filter((item) => item.id !== id))
-      makeRequest(id)
+    const lostDeleteData =(id) => {
+      console.log('delete', id)
+      setLostItem(lostItem.filter((lItem) => lItem.id !== id))
+      lostDeleteRequest(id)
       
     }
     
@@ -124,17 +169,6 @@ function AdminPage() {
       
       console.log('status', event)
 
-      if (event !== status.delete_status)
-      {
-        console.log("this is a status")
-        setFoundItem(foundItem.filter((item) => item.fd_status = status.delete_status))
-
-      }
-      else {
-        console.log("this is an error")
-        setFoundItem(foundItem.filter((item) => item.fd_status = 'show'))
-      }
-      
 
     }
     
@@ -148,6 +182,8 @@ function AdminPage() {
           <div className="title-container my-4 text-uppercase">
             <h1>Welcome to Admin Page, <span>{user.userName}</span></h1>
           </div>
+
+          <h1>Found Data Table</h1>
           {/* Table for Found*/}
           <table className='data-table'>
             <thead className='thead-1'>
@@ -169,24 +205,23 @@ function AdminPage() {
               </tr>
             </thead>
             <tbody>
-              {foundItem.map(item => (
-                <tr key={item.id}>
-                  <td>{item.fd_item}</td>
-                  <td>{item.fd_brand}</td>
-                  <td>{item.fd_date}</td>
-                  <td>{item.fd_time}</td>
-                  <td>{item.fd_color}</td>
-                  <td>{item.fd_category}</td>
-                  <td>{item.fd_addinfo}</td>
-                  <td>{item.fd_place}</td>
-                  <td>{item.fd_name}</td>
-                  <td>{item.fd_email}</td>
-                  <td>{item.fd_pcontact}</td>
-                  <td>{item.fd_scontact}</td>
-                  <td>{item.fd_status}</td>
+              {foundItem.map(fd_items => (
+                <tr key={fd_items.id}>
+                  <td>{fd_items.fd_item}</td>
+                  <td>{fd_items.fd_brand}</td>
+                  <td>{fd_items.fd_date}</td>
+                  <td>{fd_items.fd_time}</td>
+                  <td>{fd_items.fd_color}</td>
+                  <td>{fd_items.fd_category}</td>
+                  <td>{fd_items.fd_addinfo}</td>
+                  <td>{fd_items.fd_place}</td>
+                  <td>{fd_items.fd_name}</td>
+                  <td>{fd_items.fd_email}</td>
+                  <td>{fd_items.fd_pcontact}</td>
+                  <td>{fd_items.fd_scontact}</td>
+                  <td>{fd_items.fd_status}</td>
                   <td>
-                    <Button id="void" variant="contained" color="secondary" style={{backgroundColor:"#2986cc"}} onClick={() => voidReport(item.fd_status)}>Change Status</Button>
-                    <Button id="delete"variant="contained" color="secondary" style={{backgroundColor:"#FF0000"}} onClick={() => deleteData(item.id)}>Delete</Button>
+                    <Button id="delete"variant="contained" color="secondary" style={{backgroundColor:"#FF0000"}} onClick={() => foundDeleteData(fd_items.id)}>Delete</Button>
                   </td>
                 </tr>
               ))}
@@ -194,6 +229,8 @@ function AdminPage() {
 
           </table>
 
+
+            <h1>Lost Data Table</h1>
             <div className="lost-table">
               {/* Table for Lost*/}
               <table className='data-table'>
@@ -216,31 +253,121 @@ function AdminPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {lostItem.map(item => (
-                    <tr key={item.id}>
-                      <td>{item.lt_item}</td>
-                      <td>{item.lt_brand}</td>
-                      <td>{item.lt_date}</td>
-                      <td>{item.lt_time}</td>
-                      <td>{item.lt_color}</td>
-                      <td>{item.lt_category}</td>
-                      <td>{item.lt_addinfo}</td>
-                      <td>{item.lt_place}</td>
-                      <td>{item.lt_name}</td>
-                      <td>{item.lt_email}</td>
-                      <td>{item.lt_pcontact}</td>
-                      <td>{item.lt_scontact}</td>
-                      <td>{item.lt_status}</td>
+                  {lostItem.map(lt_items => (
+                    <tr key={lt_items.id}>
+                      <td>{lt_items.lt_item}</td>
+                      <td>{lt_items.lt_brand}</td>
+                      <td>{lt_items.lt_date}</td>
+                      <td>{lt_items.lt_time}</td>
+                      <td>{lt_items.lt_color}</td>
+                      <td>{lt_items.lt_category}</td>
+                      <td>{lt_items.lt_addinfo}</td>
+                      <td>{lt_items.lt_place}</td>
+                      <td>{lt_items.lt_name}</td>
+                      <td>{lt_items.lt_email}</td>
+                      <td>{lt_items.lt_pcontact}</td>
+                      <td>{lt_items.lt_scontact}</td>
+                      <td>{lt_items.lt_status}</td>
                       <td>
-              
-                        <Button id="void" variant="contained" color="secondary" style={{ backgroundColor: "#2986cc" }} onClick={() => voidReport(item.lt_status)}>Change Status</Button>
-                        <Button id="delete" variant="contained" color="secondary" style={{ backgroundColor: "#FF0000" }} onClick={() => deleteData(item.id)}>Delete</Button>
+                        <Button id="delete" variant="contained" color="secondary" style={{ backgroundColor: "#FF0000" }} onClick={() => lostDeleteData(lt_items.id)}>Delete</Button>
                       </td>
                     </tr>
                   ))}
                 </tbody>
 
               </table>
+          </div>
+
+          <h1>Deleted Data Table</h1>
+          <div className="deleted-table">
+              {/* Table for Lost*/}
+              <table className='data-table'>
+                <thead className='thead-1'>
+                  <tr className='trow-1'>
+                    <th>Item Lost</th>
+                    <th>Brand/Breed</th>
+                    <th>Date Found</th>
+                    <th>Time Found</th>
+                    <th>Color</th>
+                    <th>Category</th>
+                    <th>Additional Information</th>
+                    <th>Location/Place</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Primary Contact Information</th>
+                    <th>Secondary Contact Information</th>
+                    <th id='status-container'>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {lostDeletedData.map(lost => (
+                    <tr key={lost.id}>
+                      <td>{lost.lt_item}</td>
+                      <td>{lost.lt_brand}</td>
+                      <td>{lost.lt_date}</td>
+                      <td>{lost.lt_time}</td>
+                      <td>{lost.lt_color}</td>
+                      <td>{lost.lt_category}</td>
+                      <td>{lost.lt_addinfo}</td>
+                      <td>{lost.lt_place}</td>
+                      <td>{lost.lt_name}</td>
+                      <td>{lost.lt_email}</td>
+                      <td>{lost.lt_pcontact}</td>
+                      <td>{lost.lt_scontact}</td>
+                      <td>{lost.lt_status}</td>
+                      <td>
+                        <Button id="restore" variant="contained" color="secondary" style={{ backgroundColor: "#98fb98" }} onClick={() => lostDeleteData(lost.id)}>Restore</Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              <table className='data-table'>
+                <thead className='thead-1'>
+                  <tr className='trow-1'>
+                    <th>Item Found</th>
+                    <th>Brand/Breed</th>
+                    <th>Date Found</th>
+                    <th>Time Found</th>
+                    <th>Color</th>
+                    <th>Category</th>
+                    <th>Additional Information</th>
+                    <th>Location/Place</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Primary Contact Information</th>
+                    <th>Secondary Contact Information</th>
+                    <th id='status-container'>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {foundDeletedData.map(found => (
+                    <tr key={found.id}>
+                      <td>{found.fd_item}</td>
+                      <td>{found.fd_brand}</td>
+                      <td>{found.fd_date}</td>
+                      <td>{found.fd_time}</td>
+                      <td>{found.fd_color}</td>
+                      <td>{found.fd_category}</td>
+                      <td>{found.fd_addinfo}</td>
+                      <td>{found.fd_place}</td>
+                      <td>{found.fd_name}</td>
+                      <td>{found.fd_email}</td>
+                      <td>{found.fd_pcontact}</td>
+                      <td>{found.fd_scontact}</td>
+                      <td>{found.fd_status}</td>
+                      <td>
+                        <Button id="restore" variant="contained" color="secondary" style={{ backgroundColor: "#98fb98" }} onClick={() => lostDeleteData(found.id)}>Restore</Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              
+              
           </div>
 
           <div className='side-navbar-placeholder'></div>

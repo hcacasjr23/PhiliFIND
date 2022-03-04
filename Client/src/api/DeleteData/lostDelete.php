@@ -12,10 +12,8 @@ $id = $_POST['id'];
 // Connection
 $conn = mysqli_connect("localhost", "root", "", "philifind");
 
-$query = "UPDATE `found_table` SET `fd_status`='deleted' WHERE id = $id";
-
-$result = mysqli_query($conn, $query);
-
+$lost_query = "UPDATE `lost_table` SET `lt_status`='deleted' WHERE id = $id";
+$result = mysqli_query($conn, $lost_query);
 
 if ($result) {
     echo json_encode(["sent" => 1, ]);

@@ -208,7 +208,7 @@ function FoundForm() {
         }
     }
 
-    const API_PATH = 'http://localhost/PhiliFIND/Client/src/api/found.php';
+    const API_PATH = 'http://localhost/PhiliFIND/Client/src/api/PostData/found.php';
 
     //Posts Data to Database using Axios
     const sendPostRequest = () => {

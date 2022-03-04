@@ -6,21 +6,19 @@ header("Content-Type: application/json; charset=UTF-8");
 
 // include_once ("core.php")
 $connect = mysqli_connect("localhost", "root", "", "philifind");
+
 if ($connect){
 
     
 
-    $sql = "SELECT * FROM `found_table` ORDER BY `id` ASC AND WHERE 'fd_status' = 'show' " ;
-    $result = @mysqli_query($connect, $sql);
+    $sql_lost = "SELECT * FROM `lost_table` WHERE lt_status = 'deleted' ORDER BY `id` ASC";
+    $lost = @mysqli_query($connect, $sql_lost);
     $json_array = array();
     
-    while($row = mysqli_fetch_assoc($result)) {
+    while($row = mysqli_fetch_assoc($lost)) {
         $json_array[]=$row;
     }
     echo json_encode($json_array, JSON_PRETTY_PRINT);
-    
-    
-    
     
     mysqli_close($connect);
 

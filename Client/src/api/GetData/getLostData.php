@@ -8,7 +8,7 @@ header("Content-Type: application/json; charset=UTF-8");
 $connect = mysqli_connect("localhost", "root", "", "philifind");
 if ($connect){
 
-    $sql = "SELECT * FROM `lost_table` ORDER BY `id` ASC";
+    $sql = "SELECT * FROM `lost_table` WHERE lt_status = 'show' ORDER BY `id` ASC";
     $result = @mysqli_query($connect, $sql);
     $json_array = array();
     
