@@ -2,6 +2,9 @@ import React from 'react';
 
 //Additional Dependencies for Footer Component
 import { Container } from '@mui/material';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import GoogleIcon from '@mui/icons-material/Google';
 
 import './Footer.css';
 
@@ -12,33 +15,31 @@ const Footer = () => {
             <Container>
                 <div className='row'>
                     <div className='col'>
-                        <h4>Header 1</h4>
+                        <h4>Contact Us</h4>
                         <ul>
-                            <li>Text 1</li>
-                            <li>Text 2</li>
+                            <li>(02) 565-0200</li>
+                            <li><a href='#' className='link' onClick={(e) => {e.preventDefault()}}>inquiries@philifind.com</a></li>
                         </ul>
                     </div>
                     <div className='col'>
-                        <h4>Header 2</h4>
-                        <ul>
-                            <li>Text 1</li>
-                            <li>Text 2</li>
-                        </ul>
-                    </div>
-                    <div className='col'>
-                        <h4>Header 3</h4>
-                        <ul>
-                            <li>Text 1</li>
-                            <li>Text 2</li>
-                        </ul>
+                        <div className='row'>
+                            <a className='link social' href='#' onClick={(e) => {e.preventDefault()}}><LinkedInIcon /></a>
+                            <a className='link social' href='#' onClick={(e) => {e.preventDefault()}}><FacebookIcon /></a>
+                            <a className='link social' href='#' onClick={(e) => {e.preventDefault()}}><GoogleIcon /></a>
+                        </div>
                     </div>
                 </div>
+
+                <hr className='divider'/>
+
                 <div className='row'>
                     <p className='col-sm'>
-                        &copy;{new Date().getFullYear()} PhiliFIND | CET V Project by Ken & Henry
+                        &copy;{new Date().getFullYear()} <span className='logo'>PhiliFIND </span>
+                        | <span><a href='#' className='link' onClick={(e) => {e.preventDefault()}}>Terms of Use</a></span>
+                        | <span><a href='#' className='link' onClick={(e) => {e.preventDefault()}}>Privacy Policy</a></span>
                     </p>
                 </div>
-            </Container>            
+            </Container>
         </div>
     )
 };

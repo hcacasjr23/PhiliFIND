@@ -22,7 +22,7 @@ import {
 
 function App() {
   return (
-    <div>
+    <>
       <Router>
         <Switch>
           {/* Pages without Navbar and Footer */}
@@ -48,7 +48,7 @@ function App() {
           </>
         </Switch>
       </Router>
-    </div>
+    </>
   );
 }
 
