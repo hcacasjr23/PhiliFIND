@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
+import FoundPostTemplate from '../../PostTemplate/FoundPostTemplate';
+
 import { Grid } from '@mui/material';
-import PostTemplate from '../../PostTemplate/FoundPostTemplate';
 
 import './ItemLists.css'
 
-function FoundItemList() {
-
-    // Function for getting value based on ID
+function FoundItemList(props) {
     const [item, setItem] = useState([]);
+
     useEffect(() => {
         fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getFoundData.php")
             .then(result => result.json())
@@ -25,19 +25,30 @@ function FoundItemList() {
             <div className="item-container">
                 {/* Container for item listing */}
                 <Grid item={true} xs={12}>
-                    {/* // Call and list data from database 1 by 1*/}
-                    {item.map(item => (
-                        <PostTemplate
+                    {/* Call and list data from database 1 by 1 */}
+                    {item.filter((val) => {
+                        if (props.searchTerm.trim() === '') {
+                            return val
+                        } else if (val.fd_item.toLowerCase().includes(props.searchTerm.toLowerCase())) {
+                            return val
+                        }
+                    }).map(item => (
+                        <FoundPostTemplate
                             key={item.id}
-                            image={item.fd_image}
+                            itemImage={item.fd_image}
                             itemName={item.fd_item}
                             itemBrand={item.fd_brand}
                             itemColor={item.fd_color}
-                            location={item.fd_place}
+                            itemCategory={item.fd_category}
+                            itemLocation={item.fd_place}
+                            itemDate={item.fd_date}
+                            itemTime={item.fd_time}
+                            itemInfo={item.fd_addinfo}
                         />
                     ))}
                 </Grid>
             </div>
+
         </>
     );
 }

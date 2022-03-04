@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 import LostPostTemplate from '../../PostTemplate/LostPostTemplate';
 
-const LostItemList = () => {
+import './ItemLists.css'
+
+const LostItemList = (props) => {
     const [item, setItem] = useState([]);
-    
+
     useEffect(() => {
         fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getLostData.php")
             .then(result => result.json())
@@ -22,7 +24,13 @@ const LostItemList = () => {
                 {/* Container for item listing */}
                 <Grid item={true} xs={12}>
                     {/* // Call and list data from database 1 by 1*/}
-                    {item.map(item => (
+                    {item.filter((val) => {
+                        if (props.searchTerm.trim() === '') {
+                            return val
+                        } else if (val.lt_item.toLowerCase().includes(props.searchTerm.toLowerCase())) {
+                            return val
+                        }
+                    }).map(item => (
                         <LostPostTemplate
                             key={item.id}
                             itemImage={item.lt_image}

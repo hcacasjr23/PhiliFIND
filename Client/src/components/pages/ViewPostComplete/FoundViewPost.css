@@ -1,0 +1,52 @@
+body {
+    padding-right: 0px !important;
+} 
+
+.found-form {
+    padding: 20px;
+    margin: 0%;
+    display: block;
+    width: 100%;
+    min-height:100vh;
+    background-color: var(--color-white-dirty);
+}
+
+.found-form .wrapper {
+    margin: 3rem 0;
+}
+
+.found-form .middle {
+    margin-top: 5rem;
+    margin-bottom: 5.5rem;
+}
+
+.found-form .section-header  {
+    color: var(--color-primary);
+    font-weight: 100;
+    font-size: 20pt;
+    width: 100%;
+}
+
+.found-form .section-header-wrapper {
+    width: fit-content;
+    background-color: var(--color-blue-pastel);
+}
+
+.image-attachment-container {
+    border: 1px solid #bdbdbd;
+    padding: 0.7rem 0.8rem;
+}
+
+.image-attachment-container .image-container {
+    margin-top: 10px;
+}
+
+.form {
+    margin: 2rem 0;
+}
+
+.google-map-wrapper {
+    height: auto;
+    width: 100%;
+}
+
