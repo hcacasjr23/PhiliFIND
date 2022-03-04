@@ -382,7 +382,7 @@ function FoundForm() {
                                                 label="Category"
                                                 onChange={(e) => setValues({ ...values, fd_category: e.target.value })}
                                             >   
-                                                <MenuItem aria-label="None" value="" />
+                                                <MenuItem aria-label="None" value="">None</MenuItem>
                                                 <MenuItem value={'Animal'}>Animal/Pet</MenuItem>
                                                 <MenuItem value={'Clothing'}>Clothing</MenuItem>
                                                 <MenuItem value={'Money'}>Money</MenuItem>
@@ -498,10 +498,10 @@ function FoundForm() {
                             {/* Contact fd_name Field */}
                             <Grid item={true} xs={12} sm={6}>
                                 <StyledTextField
-                                    id="fd_name-person"
+                                    id="fd_name"
                                     label="Name"
                                     variant="outlined"
-                                    name='fd_name-person'
+                                    name='fd_name'
                                     size='medium'
                                     fullWidth
                                     value={values.fd_name}
@@ -552,7 +552,7 @@ function FoundForm() {
                                     id="secondary-contact"
                                     label="Secondary contact number"
                                     variant="outlined"
-                                    name='primary-contact'
+                                    name='secondary-contact'
                                     size='medium'
                                     fullWidth
                                     value={values.fd_scontact}

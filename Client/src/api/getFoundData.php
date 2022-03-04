@@ -10,7 +10,7 @@ if ($connect){
 
     
 
-    $sql = "SELECT * FROM `found_table` ORDER BY `id` ASC AND WHERE 'fd_status' = 'show' " ;
+    $sql = "SELECT * FROM `found_table` ORDER BY `id` ASC" ;
     $result = @mysqli_query($connect, $sql);
     $json_array = array();
     

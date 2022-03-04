@@ -93,7 +93,6 @@
     margin: 2rem 0;
     padding: 0;
     outline: 1px solid var(--color-green-pastel);
-    height: auto;
     display: flex;
     flex-direction: row;
     cursor: pointer;
@@ -103,13 +102,28 @@
     transition: all 0.3s ease-in-out;
 }
 
+.found-card:hover > .card-body {
+    overflow: hidden;
+}
+
 .found-card:hover > .card-highlight {
-    flex: 0.08;
+    min-width: 30px;
+}
+
+.found-card:hover > .card-image {
+    max-width: 200px;
 }
 
 .found-card .card-highlight {
     height: auto;
     min-width: 15px;
     background-color: var(--color-green-pastel);
+}
+
+.found-card .label {
+    display: inline-block;
+    min-width: 103px;
+    font-weight: bold;
+    color: var(--color-green-pastel);
 }
 

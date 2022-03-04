@@ -6,12 +6,12 @@ import { Container, Grid, InputAdornment } from '@mui/material'
 import { StyledTextField } from '../StyledComponents.js'
 import SearchIcon from '@mui/icons-material/Search';
 
-import FoundData from '../ItemLists/FoundItemList';
-import LostData from '../ItemLists/LostItemList';
+import FoundItemList from '../ItemLists/FoundItemList';
+import LostItemList from '../ItemLists/LostItemList';
 
 function Posts() {
 
-  const [searchValue, setSearchValue] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   // Filter for Search Function
 
@@ -26,7 +26,7 @@ function Posts() {
             name='post-search'
             size='medium'
             fullWidth
-            placeholder='Search Item'
+            placeholder='Search Item Post...'
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -34,16 +34,20 @@ function Posts() {
                 </InputAdornment>
               ),
             }}
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
+            value={searchTerm}
+            onChange={(e) => { setSearchTerm(e.target.value) }}
           />
         </div>
         <Grid container spacing={6}>
           <Grid item={true} xs={12} md={6}>
-            <LostData />
+            <LostItemList
+              searchTerm={searchTerm}
+            />
           </Grid>
           <Grid item={true} xs={12} md={6}>
-            <FoundData />
+            <FoundItemList
+              searchTerm={searchTerm}
+            />
           </Grid>
         </Grid>
       </Container>

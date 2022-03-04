@@ -51,7 +51,7 @@
     height: 1px;
     border-radius: 0;
     margin-bottom: 1.7rem;
-    background-color: var(--color-white-dirty);
+    background-color: rgba(250, 248, 248, 0.3);
 }
 
 .footer .logo {
