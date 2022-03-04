@@ -30,7 +30,7 @@ function LostPostTemplate(props) {
         }),
         width: 335,
         icon: 'success',
-        iconColor: 'var(--color-red-pastel-light)',
+        backgroundColor: 'var(--color-white-dirty)',
     })
 
     const WarningToast = Swal.mixin({
