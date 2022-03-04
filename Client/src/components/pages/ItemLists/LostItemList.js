@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Grid } from '@mui/material';
+
 import LostPostTemplate from '../../PostTemplate/LostPostTemplate';
+
+import { Grid } from '@mui/material';
 
 import './ItemLists.css'
 
@@ -42,6 +44,10 @@ const LostItemList = (props) => {
                             itemDate={item.lt_date}
                             itemTime={item.lt_time}
                             itemInfo={item.lt_addinfo}
+                            contactName={item.lt_name}
+                            contactEmail={item.lt_email}
+                            contactPrimary={item.lt_pcontact}
+                            contactSecondary={item.lt_scontact}
                         />
                     ))}
                 </Grid>

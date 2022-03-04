@@ -127,3 +127,7 @@
     color: var(--color-green-pastel);
 }
 
+/* Swal */
+.report-popup {
+    border-radius: 0 !important;
+}
