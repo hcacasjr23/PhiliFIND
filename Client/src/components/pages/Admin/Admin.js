@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory, generatePath } from 'react-router-dom';
+
 // Import components
 import { Button, responsiveFontSizes } from '@mui/material';
 import Swal from 'sweetalert2';
-import { Axios } from 'axios';
-
+import axios from 'axios';
+import DataTable from '../../DataTable.js';
+import SideNavBar from '../../SideNavBar/SideNavBar.js';
 
 // Import Css
 import './Admin.css'
@@ -13,7 +15,6 @@ import './Admin.css'
 import LoginForm from '../LoginForm/LoginForm';
 import { Dashboard } from '@mui/icons-material';
 import simpleRestProvider from 'ra-data-simple-rest';
-import axios from 'axios';
 
 
 function AdminPage() {
@@ -36,10 +37,45 @@ function AdminPage() {
     })
   })
 
-  const Login = details => {
-    console.log(details)
+  const [state, setState] = useState({
+    status: true
+  })
 
+
+  async function LoginMethod(user, pass) {
+    let s = new FormData();
+    s.append('username', user);
+    s.append('password', pass);
+    let res = await axios.post('http://localhost/PhiliFIND/Client/src/api/Login/startSession.php', s)
+    let data = res.data
+    console.log(data)
+    console.log(res.status)
+
+  }
+  async function LogoutMethod() {
+    let res = await axios.post('http://localhost/PhiliFIND/Client/src/api/Login/destroySession.php')
+    let data = res.data
+    console.log(data)
+    console.log(res.status)
+
+  }
+  async function setFalseMethod() {
+    let res = await axios.post('http://localhost/PhiliFIND/Client/src/api/Login/setFalseSession.php')
+    let data = res.data
+    console.log(data)
+    console.log(res.status)
+
+  }
+
+
+
+
+  const Login = details => {
+
+    console.log(details)
+    setFalseMethod();
     if (details.userName == adminUser.userName && details.password == adminUser.password) {
+      LoginMethod(adminUser.userName, adminUser.password)
       console.log('Logged In');
       setUser({
         userName: details.userName
@@ -62,158 +98,69 @@ function AdminPage() {
   }
 
   const Logout = () => {
+    LogoutMethod();
     console.log("Logout")
     setUser({ userName: "" })
   }
 
-  const Debug = () => {
-    console.log("")
-  }
-
-  function returnValue(value) {
-    return value;
-  }
 
   // Getting Data
-
-  const [completeData, setCompleteData] = useState([])
-  useEffect(()=> {
-    const getFound = fetch('http://localhost/PhiliFIND/Client/src/api/GetData/getFoundData.php')
-    const getLost = fetch ('http://localhost/PhiliFIND/Client/src/api/GetData/getLostData.php')
-    const getDeletedFound =  fetch('http://localhost/PhiliFIND/Client/src/api/GetData/getFoundDeletedData.php')
-    const getDeletedLost = fetch('http://localhost/PhiliFIND/Client/src/api/GetData/getLostDeletedData.php')
-    .then (result => result.json())
-    .then (
-      (res) => {
-        completeData(res)
-        console.log(res);
-      }
-    )
-  })
-
-
-
   const [foundItem, setFoundItem] = useState([])
-  // useEffect(() => {
-  //   fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getFoundData.php")
-  //   .then(result => result.json())
-  //   .then(
-  //     (res) => {
-  //       setFoundItem(res);
-  //       console.log(res)
-  //     }
-  //     )
-  //   }, [])
-
-    const [lostItem, setLostItem] = useState([])
-
-    // useEffect(() => {
-    //   fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getLostData.php")
-    //   .then(result => result.json())
-    //   .then(
-    //     (res) => {
-    //       setLostItem(res);
-    //       console.log(res)
-    //     }
-    //     )
-    //   }, [])
-
-      // Getting Deleted Data
-    // const [foundDeletedData, setFoundDeletedData] = useState([])
-    // useEffect(() => {
-    //   fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getFoundDeletedData.php")
-    //     .then(result => result.json())
-    //     .then(
-    //       (res) => {
-    //         setFoundDeletedData(res);
-    //         console.log(res)
-    //       }
-    //     )
-    // }, [])
-
-    // const [lostDeletedData, setLostDeletedData] = useState([])
-    // useEffect(() => {
-    //   fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getLostDeletedData.php")
-    //     .then(result => result.json())
-    //     .then(
-    //       (res) => {
-    //         setLostDeletedData(res);
-    //         console.log(res)
-    //       }
-    //     )
-    // }, [])
-
-
-    // Request Deletion/Hide of Posts
-    async function foundDeleteRequest (event) {
-    
-      let fd = new FormData()
-      fd.append('id', event)
-      let res = await axios.post('http://localhost/PhiliFIND/Client/src/api/DeleteData/foundDelete.php', fd)
-      let data = res.data
-      console.log(data) 
-      console.log(res.status)
-    }
-    async function lostDeleteRequest (event) {
-    
-      let lt = new FormData()
-      lt.append('id', event)
-      let res = await axios.post('http://localhost/PhiliFIND/Client/src/api/DeleteData/lostDelete.php', lt)
-      let data = res.data
-      console.log(data) 
-      console.log(res.status)
-    }
-    
-    // Constant Function for manipulating show => delete
-    const foundDeleteDatas =(id) => {
-      console.log('delete', id)
-      setFoundItem(foundItem.filter((fItem) => fItem.id !== id))
-      foundDeleteRequest(id)
-      
-    }
-
-  // Getting Deleted Data
+  const [lostItem, setLostItem] = useState([])
   const [foundDeletedData, setFoundDeletedData] = useState([])
-  // useEffect(() => {
-  //   fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getFoundDeletedData.php")
-  //     .then(result => result.json())
-  //     .then(
-  //       (res) => {
-  //         setFoundDeletedData(res);
-  //         console.log(res)
-  //       }
-  //     )
-  // }, [])
-
   const [lostDeletedData, setLostDeletedData] = useState([])
-  // useEffect(() => {
-  //   fetch("http://localhost/PhiliFIND/Client/src/api/GetData/getLostDeletedData.php")
-  //     .then(result => result.json())
-  //     .then(
-  //       (res) => {
-  //         setLostDeletedData(res);
-  //         console.log(res)
-  //       }
-  //     )
-  // }, [])
 
+  const getData = async (url, type) => {
+    await axios.get(url).then(function (response) {
+      if (type === 'foundItem') {
+        console.log(response.data);
+        setFoundItem(response.data);
+      } else if (type === 'lostItem') {
+        console.log(response.data);
+        setLostItem(response.data);
+      } else if (type === 'foundDeletedData') {
+        console.log(response.data);
+        setFoundDeletedData(response.data);
+      } else if (type === 'lostDeletedData') {
+        console.log(response.data);
+        setLostDeletedData(response.data);
+      }
+    });
+  }
+
+  useEffect(() => {
+    getData('http://localhost/PhiliFIND/Client/src/api/GetData/getFoundData.php', 'foundItem');
+  }, [setFoundItem])
+
+  useEffect(() => {
+    getData('http://localhost/PhiliFIND/Client/src/api/GetData/getLostData.php', 'lostItem');
+  }, [setLostItem])
+
+  useEffect(() => {
+    getData('http://localhost/PhiliFIND/Client/src/api/GetData/getFoundDeletedData.php', 'foundDeletedData');
+  }, [setFoundDeletedData])
+
+  useEffect(() => {
+    getData('http://localhost/PhiliFIND/Client/src/api/GetData/getLostDeletedData.php', 'lostDeletedData');
+  }, [setLostDeletedData])
 
   // Request Deletion/Hide of Posts
   async function foundDeleteRequest(event) {
-
-    let fd = new FormData()
+    const fd = new FormData()
     fd.append('id', event)
-    let res = await axios.post('http://localhost/PhiliFIND/Client/src/api/DeleteData/foundDelete.php', fd)
-    let data = res.data
+    const res = await axios.post('http://localhost/PhiliFIND/Client/src/api/DeleteData/foundDelete.php', fd)
+    const data = res.data
     console.log(data)
     console.log(res.status)
   }
+
+
   async function lostDeleteRequest(event) {
 
-    let lt = new FormData()
+    const lt = new FormData()
     lt.append('id', event)
-    let res = await axios.post('http://localhost/PhiliFIND/Client/src/api/DeleteData/lostDelete.php', lt)
-    let data = res.data
+    const res = await axios.post('http://localhost/PhiliFIND/Client/src/api/DeleteData/lostDelete.php', lt)
+    const data = res.data
     console.log(data)
     console.log(res.status)
   }
@@ -237,240 +184,117 @@ function AdminPage() {
 
   async function foundRestoreRequest(event) {
 
-    let foundID = new FormData()
+    const foundID = new FormData()
     foundID.append('id', event)
-    let res = await axios.post('http://localhost/PhiliFIND/Client/src/api/RestoreData/foundRestore.php', foundID)
-    let data = res.data
+    const res = await axios.post('http://localhost/PhiliFIND/Client/src/api/RestoreData/foundRestore.php', foundID)
+    const data = res.data
     console.log(data)
     console.log(res.status)
   }
   async function lostRestoreRequest(event) {
 
-    let lostID = new FormData()
+    const lostID = new FormData()
     lostID.append('id', event)
-    let res = await axios.post('http://localhost/PhiliFIND/Client/src/api/RestoreData/lostRestore.php', lostID)
-    let data = res.data
+    const res = await axios.post('http://localhost/PhiliFIND/Client/src/api/RestoreData/lostRestore.php', lostID)
+    const data = res.data
     console.log(data)
     console.log(res.status)
   }
   const foundRestoreData = (id) => {
     console.log('restore', id)
-    // setFoundItem(foundItem.filter((frData) => frData.id !== id))
+    setFoundDeletedData(foundDeletedData.filter((frData) => frData.id !== id))
     foundRestoreRequest(id)
-
   }
 
   const lostRestoreData = (id) => {
     console.log('restore', id)
-    setLostItem(lostItem.filter((lrData) => lrData.id !== id))
+    setLostDeletedData(lostDeletedData.filter((lrData) => lrData.id !== id))
     lostRestoreRequest(id)
   }
 
+  const [showLiveLost, setShowLiveLost] = useState(true);
+  const [showLiveFound, setShowLiveFound] = useState(false);
+  const [showDeletedLost, setShowDeletedLost] = useState(false);
+  const [showDeletedFound, setShowDeletedFound] = useState(false);
+
+  const handleShow = (show) => {
+    if (show === 'showLiveLost' && showLiveLost === false) {
+      setShowLiveLost(true);
+      setShowLiveFound(false);
+      setShowDeletedLost(false);
+      setShowDeletedFound(false);
+    } else if (show === 'showLiveFound' && showLiveFound === false) {
+      setShowLiveLost(false);
+      setShowLiveFound(true);
+      setShowDeletedLost(false);
+      setShowDeletedFound(false);
+    } else if (show === 'showDeletedLost' && showDeletedLost === false) {
+      setShowLiveLost(false);
+      setShowLiveFound(false);
+      setShowDeletedLost(true);
+      setShowDeletedFound(false);
+    } else if (show === 'showDeletedFound' && showDeletedFound === false) {
+      setShowLiveLost(false);
+      setShowLiveFound(false);
+      setShowDeletedLost(false);
+      setShowDeletedFound(true);
+    }
+  }
 
   return (
-    <div>
+    <>
       {/* if Logged in this will show */}
+      {(user.userName == 'admin') ? (
 
-      {(user.userName != "") ? (
-        <div className="welcome-container">
-          <h1>Found Data Table</h1>
-          {/* Table for Found*/}
-          <table className='data-table'>
-            <thead className='thead-1'>
-              <tr className='trow-1'>
-                <th>Item Found</th>
-                <th>Brand/Breed</th>
-                <th>Date Found</th>
-                <th>Time Found</th>
-                <th>Color</th>
-                <th>Category</th>
-                <th>Additional Information</th>
-                <th>Location/Place</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Primary Contact Information</th>
-                <th>Secondary Contact Information</th>
-                <th id='status-container'>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {foundItem.map(fd_items => (
-                <tr key={fd_items.id}>
-                  <td>{fd_items.fd_item}</td>
-                  <td>{fd_items.fd_brand}</td>
-                  <td>{fd_items.fd_date}</td>
-                  <td>{fd_items.fd_time}</td>
-                  <td>{fd_items.fd_color}</td>
-                  <td>{fd_items.fd_category}</td>
-                  <td>{fd_items.fd_addinfo}</td>
-                  <td>{fd_items.fd_place}</td>
-                  <td>{fd_items.fd_name}</td>
-                  <td>{fd_items.fd_email}</td>
-                  <td>{fd_items.fd_pcontact}</td>
-                  <td>{fd_items.fd_scontact}</td>
-                  <td>{fd_items.fd_status}</td>
-                  <td>
-                    <Button id="delete" variant="contained" color="secondary" style={{ backgroundColor: "#FF0000" }} onClick={() => foundDeleteData(fd_items.id)}>Delete</Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+        <div className="admin">
 
-          </table>
-
-
-          <h1>Lost Data Table</h1>
-          <div className="lost-table">
-            {/* Table for Lost*/}
-            <table className='data-table'>
-              <thead className='thead-1'>
-                <tr className='trow-1'>
-                  <th>Item Lost</th>
-                  <th>Brand/Breed</th>
-                  <th>Date Found</th>
-                  <th>Time Found</th>
-                  <th>Color</th>
-                  <th>Category</th>
-                  <th>Additional Information</th>
-                  <th>Location/Place</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Primary Contact Information</th>
-                  <th>Secondary Contact Information</th>
-                  <th id='status-container'>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {lostItem.map(lt_items => (
-                  <tr key={lt_items.id}>
-                    <td>{lt_items.lt_item}</td>
-                    <td>{lt_items.lt_brand}</td>
-                    <td>{lt_items.lt_date}</td>
-                    <td>{lt_items.lt_time}</td>
-                    <td>{lt_items.lt_color}</td>
-                    <td>{lt_items.lt_category}</td>
-                    <td>{lt_items.lt_addinfo}</td>
-                    <td>{lt_items.lt_place}</td>
-                    <td>{lt_items.lt_name}</td>
-                    <td>{lt_items.lt_email}</td>
-                    <td>{lt_items.lt_pcontact}</td>
-                    <td>{lt_items.lt_scontact}</td>
-                    <td>{lt_items.lt_status}</td>
-                    <td>
-                      <Button id="delete" variant="contained" color="secondary" style={{ backgroundColor: "#FF0000" }} onClick={() => lostDeleteData(lt_items.id)}>Delete</Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-
-            </table>
+          <div className='column'>
+            <SideNavBar
+              handleShow={handleShow}
+              Logout={Logout}
+            />
           </div>
 
-          <h1>Deleted Data Table</h1>
-          <div className="deleted-table">
-            {/* Table for Lost*/}
-            <table className='data-table'>
-              <thead className='thead-1'>
-                <tr className='trow-1'>
-                  <th>Item Lost</th>
-                  <th>Brand/Breed</th>
-                  <th>Date Found</th>
-                  <th>Time Found</th>
-                  <th>Color</th>
-                  <th>Category</th>
-                  <th>Additional Information</th>
-                  <th>Location/Place</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Primary Contact Information</th>
-                  <th>Secondary Contact Information</th>
-                  <th id='status-container'>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {lostDeletedData.map(lost => (
-                  <tr key={lost.id}>
-                    <td>{lost.lt_item}</td>
-                    <td>{lost.lt_brand}</td>
-                    <td>{lost.lt_date}</td>
-                    <td>{lost.lt_time}</td>
-                    <td>{lost.lt_color}</td>
-                    <td>{lost.lt_category}</td>
-                    <td>{lost.lt_addinfo}</td>
-                    <td>{lost.lt_place}</td>
-                    <td>{lost.lt_name}</td>
-                    <td>{lost.lt_email}</td>
-                    <td>{lost.lt_pcontact}</td>
-                    <td>{lost.lt_scontact}</td>
-                    <td>{lost.lt_status}</td>
-                    <td>
-                      <Button id="restore" variant="contained" color="secondary" style={{ backgroundColor: "#98fb98" }} onClick={() => lostRestoreData(lost.id)}>Restore</Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-            <table className='data-table'>
-              <thead className='thead-1'>
-                <tr className='trow-1'>
-                  <th>Item Found</th>
-                  <th>Brand/Breed</th>
-                  <th>Date Found</th>
-                  <th>Time Found</th>
-                  <th>Color</th>
-                  <th>Category</th>
-                  <th>Additional Information</th>
-                  <th>Location/Place</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Primary Contact Information</th>
-                  <th>Secondary Contact Information</th>
-                  <th id='status-container'>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {foundDeletedData.map(found => (
-                  <tr key={found.id}>
-                    <td>{found.fd_item}</td>
-                    <td>{found.fd_brand}</td>
-                    <td>{found.fd_date}</td>
-                    <td>{found.fd_time}</td>
-                    <td>{found.fd_color}</td>
-                    <td>{found.fd_category}</td>
-                    <td>{found.fd_addinfo}</td>
-                    <td>{found.fd_place}</td>
-                    <td>{found.fd_name}</td>
-                    <td>{found.fd_email}</td>
-                    <td>{found.fd_pcontact}</td>
-                    <td>{found.fd_scontact}</td>
-                    <td>{found.fd_status}</td>
-                    <td>
-                      <Button id="restore" variant="contained" color="secondary" style={{ backgroundColor: "#98fb98" }} onClick={() => foundRestoreData(found.id)}>Restore</Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-
+          <div className='column'>
+            {showLiveLost && (<DataTable
+              itemType={'Lost'}
+              itemData={lostItem}
+              itemPrefix={'lt'}
+              tableHeader={'Live'}
+              buttonType={'delete'}
+              handleEvent={lostDeleteData}
+            />)}
+            {showLiveFound && (<DataTable
+              itemType={'Found'}
+              itemData={foundItem}
+              itemPrefix={'fd'}
+              tableHeader={'Live'}
+              buttonType={'delete'}
+              handleEvent={foundDeleteData}
+            />)}
+            {showDeletedLost && (<DataTable
+              itemType={'Lost'}
+              itemData={lostDeletedData}
+              itemPrefix={'lt'}
+              tableHeader={'Deleted'}
+              buttonType={'restore'}
+              handleEvent={lostRestoreData}
+            />)}
+            {showDeletedFound && (<DataTable
+              itemType={'Found'}
+              itemData={foundDeletedData}
+              itemPrefix={'fd'}
+              tableHeader={'Deleted'}
+              buttonType={'restore'}
+              handleEvent={foundRestoreData}
+            />)}
           </div>
-
-          <Button variant="contained" color="error" className='logout-button' onClick={Logout}>Logout</Button>
-
-          <div className='side-navbar-placeholder'></div>
         </div>
-
         // If not yet logged in, auto redirected to login form
       ) : (
         <LoginForm Login={Login} />
-
       )}
-    </div>
+    </>
   )
 }
 

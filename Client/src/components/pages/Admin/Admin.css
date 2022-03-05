@@ -1,24 +1,17 @@
-.title-container {
+.admin {
+    overflow-x: scroll;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+    min-height: 100vh;
 }
 
-.data-table {
-    display:inline-table;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-    overflow: scroll;
-    z-index: -1;
+table {
+    width: fit-content;
 }
 
 th {
-    background-color: black;
-    color: rgb(134, 121, 121);
-    width: auto;
+    background-color: var(--color-primary);
+    color: var(--color-white-dirty);
+    width: fit-content;
 }
 
 h1 {

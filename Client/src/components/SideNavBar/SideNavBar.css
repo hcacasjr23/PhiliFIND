@@ -1,0 +1,72 @@
+.sidenavbar {
+    min-width: 200px;
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-primary);
+}
+
+.sidenavbar-header {
+    height: fit-content;
+    width: 100%;
+}
+
+.sidenavbar-header .sidenavbar-logo {
+    padding: 0.55rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-primary);
+    font-size: 1.8rem;
+    background-color: var(--color-white-dirty);
+    font-weight: 400;
+}
+
+.sidenavbar-header .sidenavbar-logo .sidenavbar-icon {
+    margin-right: 0.2rem;
+}
+
+.sidenavbar-header .sidenavbar-text {
+    text-align: center;
+    color: var(--color-white-dirty);
+    margin-top: 0.5rem;
+    font-size: 11pt;
+}
+
+.sidenavbar ul {
+    width: 100%;
+    list-style: none;
+    padding: 0 0rem;
+    padding-top: 0.8rem;
+    color: var(--color-white-dirty);
+    text-align: end;
+}
+
+.sidenavbar li {
+    padding: 0.8rem 1.6rem;
+    transition: all 0.3s ease-in-out;
+    pointer-events: all;
+    font-weight: 400;
+    font-size: 10pt;
+}
+
+.sidenavbar li:hover {
+    background-color: var(--color-white-dirty);
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+.logout-button-wrapper {
+    display: flex;
+    flex: 1;
+    align-items: flex-end;
+    margin-bottom: 1rem;
+}
+
+.logout-button {
+    border-radius: 0 !important;
+}
+
+
