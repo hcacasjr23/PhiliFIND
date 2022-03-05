@@ -93,7 +93,7 @@
         background: var(--color-primary);
         transition: opacity 0.3s ease-in-out;
         pointer-events: none;
-         /* Horizontally center a abosulte positioned element */
+         /* Horizontally center a absolute positioned element */
         position: absolute;
         left: 50%;
         transform: translate(-50%);
@@ -108,7 +108,7 @@
         pointer-events: all;
          /* Make it on top of other elements all the time */
         z-index: 9999;
-        /* Horizontally center a abosulte positioned element */
+        /* Horizontally center a absolute positioned element */
         position: absolute;
         left: 50%;
         transform: translateX(-50%);

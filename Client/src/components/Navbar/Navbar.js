@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 
-//Additional Dependencies for Navbar Component
-import { MenuItems } from './MenuItems';
+// Additional Dependencies
 import { Container } from '@mui/material';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 
+// Custom Imports
+import { MenuItems } from './MenuItems';
+
 import './Navbar.css';
 
-//using class instead of function to utilize setState
 class Navbar extends Component {
     state = { clicked: false }
 
-    // sets the opposite state upon click
+    // Menu Icon Handler
     handleClick = () => {
         this.setState({ clicked: !this.state.clicked })
     }
@@ -19,7 +20,6 @@ class Navbar extends Component {
     render() {
         return (
             <div className='navbar-wrapper'>
-                {/* Container is used to make margin consistent with other pages */}
                 <Container>
                     <nav className='navbar-items'>
                         <div className='navbar-logo'>
